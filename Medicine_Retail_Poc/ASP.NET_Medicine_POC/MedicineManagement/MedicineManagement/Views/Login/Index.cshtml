@@ -1,0 +1,93 @@
+﻿@model DataAccessLayer.Domain.Login
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+
+    <style>
+
+
+        form {
+            border: 3px solid #f1f1f1;
+            width: 60%;
+            margin: auto;
+            margin-top: 5%;
+          
+
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #244b81;
+            color: white;
+            padding: 10px 20px; /* Change this line */
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height:auto;
+        }
+
+
+        .container {
+            padding: 16px;
+        }
+
+        .msg {
+            padding: 0px;
+        }
+
+
+        .err {
+            color: red;
+        }
+
+        h1 {
+            text-align: center; /* Center the heading */
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Login</h1>
+    <form asp-action="Index" method="post">
+
+        <div class="container">
+            <label asp-for="Email"><b>Email </b></label>
+            <input type="text" asp-for="Email" placeholder="Enter Email">
+            <div class="msg">
+                <span class="err" asp-validation-for="Email"></span>
+            </div>
+
+            <label asp-for="Password"><b>Password</b></label>
+            <input type="password" asp-for="Password" placeholder="Enter Password">
+            <div class="msg">
+                <span asp-validation-for="Password" class="err"></span>
+            </div>
+
+            <div style="display: inline-block;">
+                <button type="submit">Login</button>
+            </div>
+            <div style="display: inline-block;">
+                <button type="button" onclick="location.href='/Home/Index'">Cancel</button>
+            </div>
+            <div>
+            <a class="text-alert" href="/Registration/Index">Not a user? Signup</a>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+

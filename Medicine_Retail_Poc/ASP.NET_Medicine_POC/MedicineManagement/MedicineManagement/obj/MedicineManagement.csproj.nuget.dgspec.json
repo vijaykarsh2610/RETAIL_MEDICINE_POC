@@ -1,0 +1,246 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\MedicineManagement\\MedicineManagement.csproj": {}
+  },
+  "projects": {
+    "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "projectName": "BusinessLogicLayer",
+        "projectPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+        "packagesPath": "C:\\Users\\Techment Technology\\.nuget\\packages\\",
+        "outputPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\BusinessLogicLayer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Techment Technology\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectName": "DataAccessLayer",
+        "projectPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj",
+        "packagesPath": "C:\\Users\\Techment Technology\\.nuget\\packages\\",
+        "outputPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Techment Technology\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[6.0.0-preview.4.21253.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\MedicineManagement\\MedicineManagement.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\MedicineManagement\\MedicineManagement.csproj",
+        "projectName": "MedicineManagement",
+        "projectPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\MedicineManagement\\MedicineManagement.csproj",
+        "packagesPath": "C:\\Users\\Techment Technology\\.nuget\\packages\\",
+        "outputPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\MedicineManagement\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Techment Technology\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\BusinessLogicLayer\\BusinessLogicLayer.csproj": {
+                "projectPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\BusinessLogicLayer\\BusinessLogicLayer.csproj"
+              },
+              "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj": {
+                "projectPath": "D:\\WorkingModel\\Medicine_Retail_Poc\\Medicine_Retail_Poc\\ASP.NET_Medicine_POC\\MedicineManagement\\DataAccessLayer\\DataAccessLayer.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.8, )"
+            },
+            "MySql.Data.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
