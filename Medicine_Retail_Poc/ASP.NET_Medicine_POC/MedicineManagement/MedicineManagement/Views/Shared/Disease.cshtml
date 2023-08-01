@@ -3,10 +3,31 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MedicineManagement</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MedicineManagement.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <div>
-        @RenderBody()
+<body style="height: 100%; margin: 0;">
+    <div style="display: flex; flex-direction: row; height: 100%;">
+        <!-- Sidebar -->
+        <div style="width: 200px; background-color: #244b81; color: white; height: 100%; position: fixed; display: flex; flex-direction: column; align-items: center;">
+            <ul style="list-style-type: none; padding: 0;">
+                <li style="margin-bottom: 100px; margin-top: 50px; text-align: center;">
+                    <a href="#" style="color: white; font-weight: bold; text-decoration: none; font-size: 24px;">Disease</a>
+                </li>
+                <li style="margin-bottom: 50px; text-align: center;">
+                    <a href="#" style="color: white; font-weight: bold; text-decoration: none; font-size: 24px;">Medicine</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div style="flex: 1; margin-left: 200px;">
+            @RenderBody()
+        </div>
     </div>
 
     @section Scripts {
