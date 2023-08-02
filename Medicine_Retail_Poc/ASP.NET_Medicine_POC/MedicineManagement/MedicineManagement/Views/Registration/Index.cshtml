@@ -53,10 +53,19 @@
                 </div>*@
 
                 <div class="form-group" style="margin-top: 20px;">
-                    <button type="submit" style="background-color: #244b81; color: white;">Register</button>
+                    <button type="submit" style="background-color: #244b81; color: white"; onclick="showMessage()">Register</button>
                 </div>
 
             </form>
         </div>
     </div>
 </div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        function showMessage() {
+            alert("Registration Successfull!");
+        }
+    </script>
+}
