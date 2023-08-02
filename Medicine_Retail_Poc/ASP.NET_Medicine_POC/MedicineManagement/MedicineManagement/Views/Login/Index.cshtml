@@ -16,8 +16,6 @@
             width: 60%;
             margin: auto;
             margin-top: 5%;
-          
-
         }
 
         input[type=text], input[type=password] {
@@ -37,7 +35,7 @@
             border: none;
             cursor: pointer;
             width: 100%;
-            height:auto;
+            height: auto;
         }
 
 
@@ -78,16 +76,26 @@
             </div>
 
             <div style="display: inline-block;">
-                <button type="submit">Login</button>
+                <button type="submit" onclick="showMessage()">Login</button>
             </div>
             <div style="display: inline-block;">
                 <button type="button" onclick="location.href='/Home/Index'">Cancel</button>
             </div>
             <div>
-            <a class="text-alert" href="/Registration/Index">Not a user? Signup</a>
+                <a class="text-alert" href="/Registration/Index">Not a user? Signup</a>
             </div>
         </div>
     </form>
 </body>
 </html>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        function showMessage() {
+            alert("Login Successfull!");
+        }
+    </script>
+    }
+
 
