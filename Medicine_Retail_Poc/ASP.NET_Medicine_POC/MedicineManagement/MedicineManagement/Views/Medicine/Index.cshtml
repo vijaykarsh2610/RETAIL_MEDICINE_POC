@@ -1,0 +1,129 @@
+﻿@model DataAccessLayer.Domain.Medicine
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    h1 {
+        margin-top: 20px;
+    }
+
+    .form-container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    label {
+        margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    select {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #244b81;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background-color: saddlebrown;
+        color: #fff;
+    }
+
+    .mt-3 {
+        margin-top: 15px;
+    }
+
+    .mt-4 {
+        margin-top: 20px;
+        padding-top: 5px;
+        padding-bottom 5px;
+    }
+
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 18px;
+    }
+</style>
+
+<h1>Diseases</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-container">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="disease_category" class="control-label"></label>
+                    <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)">
+                        <option value="">Select a category</option>
+                    </select>
+                    <span asp-validation-for="disease_category" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageFile" class="control-label"></label>
+                    <!-- Use the ImageFile property for file upload -->
+                    <input asp-for="ImageFile" type="file" class="form-control" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="medicine_name" class="control-label"></label>
+                    <input asp-for="medicine_name" class="form-control" />
+                    <span asp-validation-for="medicine_name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="brand_name" class="control-label"></label>
+                    <input asp-for="brand_name" class="form-control" />
+                    <span asp-validation-for="brand_name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="cost" class="control-label"></label>
+                    <input asp-for="cost" class="form-control" />
+                    <span asp-validation-for="cost" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="mfd" class="control-label"></label>
+                    <input asp-for="mfd" class="form-control" type="date" />
+                    <span asp-validation-for="mfd" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Expd" class="control-label"></label>
+                    <input asp-for="Expd" class="form-control" type="date" />
+                    <span asp-validation-for="Expd" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="weight" class="control-label"></label>
+                    <input asp-for="weight" class="form-control" />
+                    <span asp-validation-for="weight" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-4">
+                    <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                </div>
+            </form>
+        </div>
+        @* <div class="mt-3">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>*@
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
