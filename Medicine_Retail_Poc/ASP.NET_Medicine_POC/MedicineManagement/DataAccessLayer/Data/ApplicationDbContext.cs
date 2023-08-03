@@ -30,6 +30,8 @@ namespace DataAccessLayer.Data
         public DbSet<Registration> Registrations { get; set; }
         public DbSet<Disease> Diseases { get; set; }
 
+        public DbSet<Medicine> Medicines { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    base.OnModelCreating(modelBuilder);
