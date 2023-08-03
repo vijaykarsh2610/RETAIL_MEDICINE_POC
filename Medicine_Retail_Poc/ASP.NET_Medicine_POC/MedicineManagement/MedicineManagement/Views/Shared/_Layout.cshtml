@@ -7,12 +7,26 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MedicineManagement.styles.css" asp-append-version="true" />
+    <style>
+        ul li:hover {
+            background-color: cadetblue;
+        }
+
+        ul li a {
+            display: block;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #244b81;">
             <div class="container-fluid">
-                <a class="navbar-brand font-weight-bold text-white" asp-area="" asp-controller="Home" asp-action="Index">MedicineApp</a>
+                <a class="navbar-brand font-weight-bold text-white" style="font-size: 20px; font-weight: bold;" asp-area="" asp-controller="Home" asp-action="Index">MedicineApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

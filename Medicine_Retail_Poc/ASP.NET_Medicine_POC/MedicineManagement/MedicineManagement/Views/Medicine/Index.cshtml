@@ -5,25 +5,26 @@
 }
 
 <style>
+    /* Your CSS styles here */
+
     h1 {
-        margin-top: 20px;
+        margin-top: 65px; /* Add top margin to the Disease heading */
+        margin-left: 50px; /* Add left margin to the Disease heading */
+        font-size: 28px; /* Increase the font size of the heading */
     }
 
-    .form-container {
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-
-    label {
-        margin-bottom: 10px;
-    }
-
-    input[type="text"],
-    select {
+    /* Use the Bootstrap grid classes to create a two-column layout */
+    .form-group {
+        display: inline-block;
+        width: 45%; /* Adjust the width as needed */
+        margin-right: 5%;
         margin-bottom: 20px;
     }
+
+        /* Clear the right margin for the last form-group in each row */
+        .form-group:nth-child(2n+2) {
+            margin-right: 0;
+        }
 
     .btn-primary {
         background-color: #244b81;
@@ -41,22 +42,44 @@
 
     .mt-4 {
         margin-top: 20px;
-        padding-top: 5px;
-        padding-bottom 5px;
+        padding-top: 5px; /* Adjust the top padding of the form container */
+        padding-bottom: 20px; /* Adjust the bottom padding of the form container */
     }
 
     .btn-lg {
-        padding: 10px 20px;
+        padding: 8px 20px;
         font-size: 18px;
     }
+
+    /* Align the form more towards the bottom and add space (margin) from the top */
+    .form-container {
+        margin-top: 8px; /* Adjust the margin-top value as needed */
+        background-color: #F7CAC9;
+        border: 1px solid #ccc;
+        padding: 20px; /* Add padding around the form container */
+        margin-left: 30px; /* Add left margin to the form container */
+        width: 95%; /* Increase the width of the form container */
+        max-width: 900px; /* Set a maximum width for the form container */
+        /* Increase the height of the form container */
+        height: 400px;
+        /* overflow-y: auto; */
+        /* Add scroll if content exceeds container height */
+        position: relative; /* Add position relative for positioning the Save button */
+    }
+
+        /* Position the Save button at the bottom left inside the form container */
+        .form-container input[type="submit"] {
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
+        }
+
 </style>
-
 <h1>Medicines</h1>
-
 <div class="row container">
     <div class="col-md-8">
         <div class="form-container">
-            <form asp-action="Create" enctype="multipart/form-data">
+            <form asp-action="Index" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group">
@@ -110,14 +133,11 @@
                     <span asp-validation-for="weight" class="text-danger"></span>
                 </div>
 
-                <div class="form-group mt-4">
-                    <input type="submit" value="Save" class="btn btn-primary btn-lg" />
-                </div>
+                <!-- The submit button is positioned inside the form container at the bottom left -->
+                <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+
             </form>
         </div>
-        @* <div class="mt-3">
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-        </div>*@
     </div>
 </div>
 
@@ -126,4 +146,3 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-
