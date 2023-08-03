@@ -23,26 +23,27 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             // add a list item for authenticated user to display user name and logout link
-                        <li class="nav-item">
-                            <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</a>
-                                </li>
-                                <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Logout" asp-action="Logout"> Logout</a>
-                                </li>
-                        }
-                        else{
                             <li class="nav-item">
                                 <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                            <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
-                        </li>
+                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Logout" asp-action="Logout"> Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -58,7 +59,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-         MedicineApp
+            MedicineApp
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
