@@ -49,7 +49,7 @@ namespace MedicineManagement.Controllers
                     }
 
                     _service.AddMedicine(model);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Medicine");
                 }
                 else
                 {
