@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.Services;
 using DataAccessLayer.Domain;
+using MedicineManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -15,6 +16,27 @@ namespace MedicineManagement.Controllers
             _service = service;
             _environment = environment;
         }
+
+        public IActionResult Home()
+        {
+            List<DiseaseViewModel> diseases = new List<DiseaseViewModel>();
+
+            if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
+            {
+                diseases = _service.GetDiseases().Select(disease =>
+                    new DiseaseViewModel
+                    {
+                        Id = disease.Id,
+                        DiseaseCategory = disease.DiseaseCategory,
+                        ImagePath = disease.ImagePath
+                    }
+                ).ToList();
+            }
+
+
+            return View(diseases); return View();
+        }
+
 
         [HttpGet]
         public IActionResult Create()
