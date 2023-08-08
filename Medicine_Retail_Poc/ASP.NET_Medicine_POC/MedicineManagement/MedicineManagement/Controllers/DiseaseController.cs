@@ -48,7 +48,7 @@ namespace MedicineManagement.Controllers
                     }
 
                     _service.AddDisease(model);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Create", "Disease");
                 }
                 else
                 {
