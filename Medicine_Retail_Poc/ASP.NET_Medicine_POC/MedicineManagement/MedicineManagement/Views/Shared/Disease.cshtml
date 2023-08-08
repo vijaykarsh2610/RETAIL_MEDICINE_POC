@@ -42,7 +42,7 @@
                         {
                             // add a list item for authenticated user to display user name and logout link
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Disease" asp-action="Home">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</a>
@@ -54,7 +54,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Disease" asp-action="Home">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
