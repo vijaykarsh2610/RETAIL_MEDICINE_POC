@@ -66,7 +66,7 @@ namespace MedicineManagement.Controllers
                         }
 
                         // Set the ImagePath property of the disease object to the filename
-                        model.ImagePath = fileName;
+                        model.ImagePath = "/images/" + fileName; // Update the path here
                     }
 
                     _service.AddDisease(model);

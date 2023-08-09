@@ -32,9 +32,14 @@ namespace BusinessLogicLayer.Services
             }
         }
 
+        //public List<string> GetDiseaseCategories()
+        //{
+        //    return Disease.DiseaseCategories;
+        //}
+
         public List<string> GetDiseaseCategories()
         {
-            return Disease.DiseaseCategories;
+            return _repository.GetDiseaseCategories();
         }
     }
 }

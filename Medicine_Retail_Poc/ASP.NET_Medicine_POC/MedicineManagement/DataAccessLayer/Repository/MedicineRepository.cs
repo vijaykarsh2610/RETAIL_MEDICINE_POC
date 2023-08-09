@@ -108,6 +108,12 @@ namespace DataAccessLayer.Repository
             }
         }
 
+        public List<string> GetDiseaseCategories()
+        {
+            return Disease.DiseaseCategories;
+        }
+
+
         public void Save()
         {
             try
