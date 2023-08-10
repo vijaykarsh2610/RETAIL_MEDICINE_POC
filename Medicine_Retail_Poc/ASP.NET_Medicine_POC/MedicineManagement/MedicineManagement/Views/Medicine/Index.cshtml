@@ -8,19 +8,23 @@
     /* Your CSS styles here */
 
     h1 {
-        margin-top: 65px; /* Add top margin to the Disease heading */
-        margin-left: 50px; /* Add left margin to the Disease heading */
-        font-size: 28px; /* Increase the font size of the heading */
+        margin-top: 65px;
+        margin-left: 50px;
+        font-size: 28px;
     }
 
     /* Use the Bootstrap grid classes to create a two-column layout */
     .form-group {
         display: inline-block;
-        width: 45%; /* Adjust the width as needed */
+        width: 45%;
         margin-right: 5%;
         margin-bottom: 20px;
     }
 
+        .form-group input {
+            border: 1px solid #f1f1f1;
+            border-color: black;
+        }
         /* Clear the right margin for the last form-group in each row */
         .form-group:nth-child(2n+2) {
             margin-right: 0;
@@ -51,20 +55,20 @@
         font-size: 18px;
     }
 
-    /* Align the form more towards the bottom and add space (margin) from the top */
     .form-container {
         margin-top: 8px; /* Adjust the margin-top value as needed */
-        background-color: #F7CAC9;
-        border: 1px solid #ccc;
-        padding: 20px; /* Add padding around the form container */
-        margin-left: 30px; /* Add left margin to the form container */
-        width: 95%; /* Increase the width of the form container */
-        max-width: 900px; /* Set a maximum width for the form container */
-        /* Increase the height of the form container */
+        /*background-color: #F7CAC9;*/
+        /* border: 1px solid #ccc;*/
+        padding: 20px;
+        margin-left: 30px;
+        width: 95%;
+        max-width: 900px;
         height: 400px;
         /* overflow-y: auto; */
         /* Add scroll if content exceeds container height */
         position: relative; /* Add position relative for positioning the Save button */
+        border: 3px solid #f1f1f1;
+        border-color: #244b81;
     }
 
         /* Position the Save button at the bottom left inside the form container */
@@ -73,9 +77,8 @@
             bottom: 10px;
             left: 20px;
         }
-
 </style>
-<h1>Medicines</h1>
+<h1>Add Medicines</h1>
 <div class="row container">
     <div class="col-md-8">
         <div class="form-container">
@@ -84,12 +87,13 @@
 
                 <div class="form-group">
                     <label asp-for="disease_category" class="control-label"></label>
-                    <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)">
+                    <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)" style="border: 1px solid #f1f1f1;
+        border-color: black" ;>
                         <option value="">Select a category</option>
                     </select>
                     <span asp-validation-for="disease_category" class="text-danger"></span>
                 </div>
-                
+
                 <div class="form-group">
                     <label asp-for="ImageFile" class="control-label"></label>
                     <!-- Use the ImageFile property for file upload -->

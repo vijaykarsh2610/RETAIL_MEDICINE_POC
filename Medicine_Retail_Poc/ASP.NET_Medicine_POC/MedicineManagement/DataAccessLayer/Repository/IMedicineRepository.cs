@@ -14,8 +14,10 @@ namespace DataAccessLayer.Repository
         void Add(Medicine medicine);
         void Update(Medicine medicine);
         void Delete(Medicine medicine);
-        IEnumerable<Medicine> GetAllMedicines();
 
+        Medicine GetMedicineById(int medicineId);
+        IEnumerable<Medicine> GetAllMedicines();
+        IEnumerable<Medicine> GetMedicinesByCategory(string category);
         List<string> GetDiseaseCategories();
         void Save();
 

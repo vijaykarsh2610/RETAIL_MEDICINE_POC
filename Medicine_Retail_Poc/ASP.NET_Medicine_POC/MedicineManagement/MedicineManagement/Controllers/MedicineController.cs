@@ -18,6 +18,20 @@ namespace MedicineManagement.Controllers
         }
 
         [HttpGet]
+        public IActionResult Home(string category)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                // Handle the case when no category is provided
+                return RedirectToAction("Index", "Home");
+            }
+
+            var medicinesByCategory = _service.GetMedicinesByCategory(category);
+            ViewBag.Category = category; // Set the ViewBag.Category for the view
+            return View(medicinesByCategory);
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
             var categories = _service.GetDiseaseCategories();
@@ -26,7 +40,7 @@ namespace MedicineManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Medicine model)
+        public IActionResult Index(Medicine model)
         {
             try
             {
@@ -45,7 +59,7 @@ namespace MedicineManagement.Controllers
                         }
 
                         // Set the ImagePath property of the disease object to the filename
-                        model.ImagePath = fileName;
+                        model.ImagePath = "/images/" + fileName;
                     }
 
                     _service.AddMedicine(model);
