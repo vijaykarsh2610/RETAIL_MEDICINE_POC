@@ -12,6 +12,19 @@ namespace BusinessLogicLayer.Services
             _repository = repository;
         }
 
+        public IEnumerable<Disease> GetDiseases()
+        {
+            try
+            {
+                return _repository.GetAllDiseases();
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as required
+                throw new Exception("An error occurred while fetching diseases from the database.", ex);
+            }
+        }
+
         /// <summary>
         /// Get the list of available disease categories.
         /// </summary>

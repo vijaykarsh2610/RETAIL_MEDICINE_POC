@@ -7,5 +7,9 @@ namespace BusinessLogicLayer.Services
         List<string> GetDiseaseCategories();
 
         void AddMedicine(Medicine medicine);
+
+        Medicine GetMedicineById(int medicineId);
+
+        IEnumerable<Medicine> GetMedicinesByCategory(string category);
     }
 }

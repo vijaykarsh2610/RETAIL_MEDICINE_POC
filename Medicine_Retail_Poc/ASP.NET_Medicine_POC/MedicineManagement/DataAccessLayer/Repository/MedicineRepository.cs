@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repository
 {
-    public class MedicineRepository: IMedicineRepository
+    public class MedicineRepository : IMedicineRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -59,6 +60,8 @@ namespace DataAccessLayer.Repository
                 throw new Exception("An error occurred while deleting the medicine from the database.", ex);
             }
         }
+
+
 
         public IEnumerable<Medicine> GetAllMedicines()
         {

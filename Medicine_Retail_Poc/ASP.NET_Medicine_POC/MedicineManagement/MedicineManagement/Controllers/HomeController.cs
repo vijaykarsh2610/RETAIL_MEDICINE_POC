@@ -1,11 +1,8 @@
 ﻿using BusinessLogicLayer.Services;
 using MedicineManagement.Models;
-using MedicineManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using DataAccessLayer.Domain;
 
 namespace MedicineManagement.Controllers
 {
@@ -13,21 +10,23 @@ namespace MedicineManagement.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IDiseaseService _service;
+        private readonly IMedicineService _medicineservice;
 
-        public HomeController(ILogger<HomeController> logger, IDiseaseService service = null)
+        public HomeController(ILogger<HomeController> logger, IDiseaseService service = null, IMedicineService medicineservice = null)
         {
             _logger = logger;
             _service = service;
+            _medicineservice = medicineservice;
         }
 
         public IActionResult Index()
         {
-            List<DiseaseViewModel> diseases = new List<DiseaseViewModel>();
+            List<Disease> diseases = new List<Disease>();
 
             if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
             {
                 diseases = _service.GetDiseases().Select(disease =>
-                    new DiseaseViewModel
+                    new Disease
                     {
                         Id = disease.Id,
                         DiseaseCategory = disease.DiseaseCategory,
@@ -38,6 +37,34 @@ namespace MedicineManagement.Controllers
 
 
             return View(diseases);
+        }
+
+        [HttpGet]
+        public IActionResult MedicineDetails(string category)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                // Handle the case when no category is provided
+                return RedirectToAction("Index", "Home");
+            }
+
+            var medicinesByCategory = _medicineservice.GetMedicinesByCategory(category);
+            ViewBag.Category = category; // Set the ViewBag.Category for the view
+            return View(medicinesByCategory);
+        }
+
+        [HttpGet]
+        public IActionResult MedicineDisplay(int medicineId)
+        {
+            var selectedMedicine = _medicineservice.GetMedicineById(medicineId);
+
+            if (selectedMedicine == null)
+            {
+                // Handle the case when the medicine is not found
+                return NotFound();
+            }
+
+            return View(selectedMedicine); // Return the view with selected medicine details
         }
 
         public IActionResult Privacy()
