@@ -32,6 +32,8 @@ namespace DataAccessLayer.Data
 
         public DbSet<Medicine> Medicines { get; set; }
 
+        public DbSet<Payments> Payments { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    base.OnModelCreating(modelBuilder);

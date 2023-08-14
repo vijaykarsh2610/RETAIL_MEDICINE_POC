@@ -11,5 +11,13 @@ namespace BusinessLogicLayer.Services
         Medicine GetMedicineById(int medicineId);
 
         IEnumerable<Medicine> GetMedicinesByCategory(string category);
+
+         void UpdateMedicine(Medicine medicine);
+
+         void DeleteMedicine(Medicine medicine);
+
+         void Save();
+
+
     }
 }

@@ -41,5 +41,38 @@ namespace BusinessLogicLayer.Services
         {
             return _repository.GetDiseaseCategories();
         }
+
+        // add methods to update,delete medicines
+
+        public void UpdateMedicine(Medicine medicine)
+        {
+            try
+            {
+                _repository.Update(medicine);
+                _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating the medicine in the database.", ex);
+            }
+        }
+
+        public void DeleteMedicine(Medicine medicine)
+        {
+            try
+            {
+                _repository.Delete(medicine);
+                _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while deleting the medicine from the database.", ex);
+            }
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
