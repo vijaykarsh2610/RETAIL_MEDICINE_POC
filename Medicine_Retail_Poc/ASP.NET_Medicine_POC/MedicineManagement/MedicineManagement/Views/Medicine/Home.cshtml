@@ -11,24 +11,47 @@
         <!-- Create a full-width column to contain the heading -->
         <h1 class="mt-5 mb-3" style="padding: 5px 15px; border-bottom: 1px solid #ddd;">Medicines by Category: @ViewBag.Category</h1>
     </div>
-    @foreach (var medicine in Model)
-    {
-        <div class="col-md-3 mt-4">
+    
+        <!--// create a table to display the medicines in a tabular format ignore image coming from medicine model column heading should be name,brand, category, cost, mfd, expd, weight,action update and delete and value should be from medicine model adjust table in center of the page--!>
+
+        <div class="col-md-12 mt-4">
             <div class="card" style="margin-left: 15px; margin-top: 0px; padding: 2px; width: 90%; height: 320px;">
-                <img src="@Url.Content(medicine.ImagePath)" alt="@medicine.medicine_name" class="card-img-top" style="max-height:130px; width: 100%;">
-                <div class="card-body">
-                    <h6 class="card-title">@medicine.medicine_name</h6>
-                    <p class="card-text" style="font-size:14px;">
-                        Brand: @medicine.brand_name<br />
-                        Category: @medicine.disease_category<br />
-                        Cost: $@medicine.cost<br />
-                        Mfd: @medicine.mfd.ToShortDateString()<br />
-                        Expd: @medicine.Expd.ToShortDateString()<br />
-                        Weight/Capacity: @medicine.weight
-                    </p>
-                    @*   <button type="button" class="btn btn-danger float-right" style="margin-right: 5px; margin-top: 2px;">Add</button><br />*@
-                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Cost</th>
+                            <th scope="col">Mfd</th>
+                            <th scope="col">Expd</th>
+                            <th scope="col">Weight</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                @foreach (var medicine in Model)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@medicine.medicine_name</td>
+                            <td>@medicine.brand_name</td>
+                            <td>@medicine.disease_category</td>
+                            <td>@medicine.cost</td>
+                            <td>@medicine.mfd.ToShortDateString()</td>
+                            <td>@medicine.Expd.ToShortDateString()</td>
+                            <td>@medicine.weight</td>
+                            <td>
+                                <a href="@Url.Action("Update", "Medicine", new { id = medicine.Id })" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="@Url.Action("Delete", "Medicine", new { id = medicine.Id })" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+                </table>
             </div>
         </div>
-    }
+
+
+
+    
 </div>
