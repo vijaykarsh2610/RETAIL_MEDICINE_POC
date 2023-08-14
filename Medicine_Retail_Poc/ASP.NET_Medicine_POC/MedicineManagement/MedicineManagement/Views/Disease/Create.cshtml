@@ -101,10 +101,16 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
     <script>
         function showMessage() {
-            alert("Data saved successfully!");
+            var diseaseCategory = document.getElementById("DiseaseCategory");
+            var imageFile = document.getElementById("ImageFile");
+
+            if (!diseaseCategory.value || !imageFile.value) {
+                alert("Please enter values in all the required fields.");
+            } else {
+                alert("Data saved successfully!");
+            }
         }
     </script>
 }
