@@ -81,7 +81,10 @@
             </div>
 
             <div style="display: inline-block;">
-                <button type="submit" onclick="showMessage()">Login</button>
+                <div>
+                    <button type="submit" onclick="showMessageAndRedirect('@Url.Action("Create", "Disease")', '@Url.Action("Index", "Home")')">Login</button>
+                </div>
+
             </div>
             <div style="display: inline-block;">
                 <button type="button" onclick="location.href='/Home/Index'">Cancel</button>
@@ -96,9 +99,20 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
+
     <script>
-        function showMessage() {
-            alert("Login Successfull!");
+        function showMessageAndRedirect(urlAdmin, urlUser) {
+            var url = userIsAdmin ? urlAdmin : urlUser;
+
+            if (url === null) {
+                alert("Invalid email or password.");
+            } else {
+                alert("Login Successful!");
+
+                setTimeout(function () {
+                    window.location.href = url;
+                }, 2000); // 2000 milliseconds (2 seconds) delay before redirection
+            }
         }
     </script>
     }

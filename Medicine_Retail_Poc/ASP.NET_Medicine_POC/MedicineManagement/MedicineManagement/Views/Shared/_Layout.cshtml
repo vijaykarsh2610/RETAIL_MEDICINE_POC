@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="~/MedicineManagement.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
     <style>
+
+        ul li a.active {
+            /*  background-color:lightskyblue;*/
+            background-color: #5893d4;
+            color: white;
+        }
+
         ul li:hover {
             background-color: cadetblue;
         }
@@ -37,30 +44,36 @@
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            // add a list item for authenticated user to display user name and logout link
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Hello" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Hello">Hello @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Logout" asp-action="Logout"> Logout</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Logout" && ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "active" : "")"
+                                   asp-area="" asp-controller="Logout" asp-action="Logout">Logout</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Login" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                                   asp-area="" asp-controller="Login" asp-action="Index">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold" asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Registration" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
+                                   asp-area="" asp-controller="Registration" asp-action="Index">Registration</a>
                             </li>
                         }
                     </ul>
+
                 </div>
             </div>
         </nav>
@@ -79,9 +92,22 @@
     </footer>
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $('ul.navbar-nav li.nav-item a.nav-link').on('click', function () {
+                $('ul.navbar-nav li.nav-item a.nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+
+
 </body>
 </html>
