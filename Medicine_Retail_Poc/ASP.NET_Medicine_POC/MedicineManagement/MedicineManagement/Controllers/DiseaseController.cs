@@ -1,6 +1,5 @@
 ﻿using BusinessLogicLayer.Services;
 using DataAccessLayer.Domain;
-using MedicineManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,12 +18,12 @@ namespace MedicineManagement.Controllers
 
         public IActionResult Home()
         {
-            List<DiseaseViewModel> diseases = new List<DiseaseViewModel>();
+            List<Disease> diseases = new List<Disease>();
 
             if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
             {
                 diseases = _service.GetDiseases().Select(disease =>
-                    new DiseaseViewModel
+                    new Disease
                     {
                         Id = disease.Id,
                         DiseaseCategory = disease.DiseaseCategory,
@@ -34,7 +33,7 @@ namespace MedicineManagement.Controllers
             }
 
 
-            return View(diseases); return View();
+            return View(diseases);
         }
 
 
@@ -66,11 +65,11 @@ namespace MedicineManagement.Controllers
                         }
 
                         // Set the ImagePath property of the disease object to the filename
-                        model.ImagePath = fileName;
+                        model.ImagePath = "/images/" + fileName; // Update the path here
                     }
 
                     _service.AddDisease(model);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Create", "Disease");
                 }
                 else
                 {

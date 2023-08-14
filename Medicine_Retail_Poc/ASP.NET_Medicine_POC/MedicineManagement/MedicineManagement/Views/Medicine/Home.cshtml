@@ -1,0 +1,34 @@
+﻿@model List<DataAccessLayer.Domain.Medicine>
+
+@{
+    ViewData["Title"] = "Medicines by Category";
+    Layout = "~/Views/Shared/Disease.cshtml";
+}
+
+<div class="row mt-4">
+    <!-- Add some top margin to the row -->
+    <div class="col-12">
+        <!-- Create a full-width column to contain the heading -->
+        <h1 class="mt-5 mb-3" style="padding: 5px 15px; border-bottom: 1px solid #ddd;">Medicines by Category: @ViewBag.Category</h1>
+    </div>
+    @foreach (var medicine in Model)
+    {
+        <div class="col-md-3 mt-4">
+            <div class="card" style="margin-left: 15px; margin-top: 0px; padding: 2px; width: 90%; height: 320px;">
+                <img src="@Url.Content(medicine.ImagePath)" alt="@medicine.medicine_name" class="card-img-top" style="max-height:130px; width: 100%;">
+                <div class="card-body">
+                    <h6 class="card-title">@medicine.medicine_name</h6>
+                    <p class="card-text" style="font-size:14px;">
+                        Brand: @medicine.brand_name<br />
+                        Category: @medicine.disease_category<br />
+                        Cost: $@medicine.cost<br />
+                        Mfd: @medicine.mfd.ToShortDateString()<br />
+                        Expd: @medicine.Expd.ToShortDateString()<br />
+                        Weight/Capacity: @medicine.weight
+                    </p>
+                    @*   <button type="button" class="btn btn-danger float-right" style="margin-right: 5px; margin-top: 2px;">Add</button><br />*@
+                </div>
+            </div>
+        </div>
+    }
+</div>

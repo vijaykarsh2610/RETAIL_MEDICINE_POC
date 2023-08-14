@@ -1,10 +1,6 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BusinessLogicLayer.Services
 {
@@ -31,10 +27,19 @@ namespace BusinessLogicLayer.Services
                 throw new Exception("An error occurred while adding the medicine to the database.", ex);
             }
         }
+        public Medicine GetMedicineById(int medicineId)
+        {
+            return _repository.GetMedicineById(medicineId);
+        }
+
+        public IEnumerable<Medicine> GetMedicinesByCategory(string category)
+        {
+            return _repository.GetMedicinesByCategory(category);
+        }
 
         public List<string> GetDiseaseCategories()
         {
-            return Disease.DiseaseCategories;
+            return _repository.GetDiseaseCategories();
         }
     }
 }

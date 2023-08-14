@@ -1,0 +1,114 @@
+﻿@model DataAccessLayer.Domain.Medicine
+@{
+    ViewData["Title"] = "MedicineDisplay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .form-control {
+        background-color: white;
+        border: 2px solid #f1f1f1;
+        border-color: #244b81;
+    }
+
+    .form-group.row {
+        margin-bottom: 10px;
+    }
+
+    #calculateButton {
+        background-color: #B21807;
+        margin-bottom: 10px;
+    }
+
+    #buyNowButton, #saveToCartButton {
+        background-color: #244b81;
+    }
+
+    #totalCost {
+        font-weight: bold;
+    }
+
+    .card-body {
+        padding: 20px; /* Adjust padding for the form */
+    }
+</style>
+
+<div class="container" style="padding-bottom: 50px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center">Medicine Details</h2>
+            <div class="card" style="border: 3px solid #f1f1f1;
+    border-color: #244b81;">
+                <div class="card-body">
+                    <h6 class="card-title">@Model.medicine_name</h6>
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="medicineName">Medicine Name</label>
+                                <input type="text" class="form-control" id="medicineName" value="@Model.medicine_name" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="brandName">Brand Name</label>
+                                <input type="text" class="form-control" id="brandName" value="@Model.brand_name" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="diseaseCategory">Category</label>
+                                <input type="text" class="form-control" id="diseaseCategory" value="@Model.disease_category" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" onchange="calculateTotalCost()" min="1" value="1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="mfd">Mfd</label>
+                                <input type="text" class="form-control" id="mfd" value="@Model.mfd.ToShortDateString()" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="expd">Expd</label>
+                                <input type="text" class="form-control" id="expd" value="@Model.Expd.ToShortDateString()" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="weight">Weight/Capacity</label>
+                                <input type="text" class="form-control" id="weight" value="@Model.weight" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-danger" style="background-color:#B21807;" id="calculateButton">Calculate Total Cost</button>
+                                <span id="totalCost" class="ml-2"></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-primary" style="background-color:#244b81" id="buyNowButton">Buy Now</button>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button type="button" class="btn btn-primary" style="background-color:#244b81" id="saveToCartButton">Save to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateTotalCost() {
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var costPerMedicine = parseFloat('@Model.cost');
+
+        var totalCost = quantity * costPerMedicine;
+        document.getElementById('totalCost').textContent = totalCost.toFixed(2);
+    }
+
+    var calculateButton = document.getElementById('calculateButton');
+    calculateButton.addEventListener('click', calculateTotalCost);
+    calculateTotalCost();
+</script>

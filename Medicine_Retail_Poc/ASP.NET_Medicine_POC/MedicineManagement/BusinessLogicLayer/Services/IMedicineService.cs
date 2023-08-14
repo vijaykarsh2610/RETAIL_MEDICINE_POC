@@ -1,9 +1,4 @@
 ﻿using DataAccessLayer.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services
 {
@@ -12,5 +7,9 @@ namespace BusinessLogicLayer.Services
         List<string> GetDiseaseCategories();
 
         void AddMedicine(Medicine medicine);
+
+        Medicine GetMedicineById(int medicineId);
+
+        IEnumerable<Medicine> GetMedicinesByCategory(string category);
     }
 }

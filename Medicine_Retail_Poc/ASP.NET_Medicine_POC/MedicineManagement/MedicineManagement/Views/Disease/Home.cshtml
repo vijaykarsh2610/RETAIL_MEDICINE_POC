@@ -1,25 +1,24 @@
-﻿@model IEnumerable<MedicineManagement.ViewModels.DiseaseViewModel>
+﻿@model IEnumerable<DataAccessLayer.Domain.Disease>
 @{
     ViewData["Title"] = "Admin Home";
     Layout = "~/Views/Shared/Disease.cshtml";
 }
 
 
-<div class="row container d-flex align-items-center justify-content-center mt-5 pt-4">
+<div class="row container d-flex mt-5 pt-4">
 
-    <h1 class="text-left" style="margin-left:50px">Diseases Management</h1>
+    <h1 class="text-left" style="margin-left:50px">Disease Details</h1>
     @foreach (var disease in Model)
     {
         <div class="col-md-3 rounded">
 
-
-
-            <div class="card mt-4 rounded" style="margin-left:30px; margin-right:20px;  width:80%">
+            <div class="card mt-4 rounded border-0" style="margin-left:30px; margin-right:20px;  width:80%">
                 <img src="@disease.ImagePath" class="card-img-top" alt="disease image">
                 <div class="card-body">
                     <h5 class="card-title">@disease.DiseaseCategory</h5>
 
-                    <a href="@Url.Action("Details", "Disease", new { id = disease.Id })" class="btn btn-primary">View Cares</a>
+                    <a href="@Url.Action("Home", "Medicine", new { category = disease.DiseaseCategory })" class="btn btn-primary">View Cares</a>
+
                 </div>
             </div>
         </div>

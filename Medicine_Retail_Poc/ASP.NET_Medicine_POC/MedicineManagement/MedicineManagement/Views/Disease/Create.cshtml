@@ -6,38 +6,38 @@
 }
 
 <style>
-    /* Your existing styles here */
-
+ 
     h1 {
-        margin-top: 70px; /* Add top margin to the Disease heading */
+        margin-top: 70px; 
         margin-bottom: 10px;
-        margin-left: 30px; /* Add left margin to the Disease heading */
-        font-size: 28px; /* Increase the font size of the heading */
+        margin-left: 52px; 
+        font-size: 28px;
     }
 
     .form-container {
-        border: 1px solid #ccc;
-        padding: 30px; /* Add padding around the form container */
-        border-radius: 5px;
-        background-color: #F7CAC9;
-        /* Decrease the height of the form container */
-        min-height: 350px; /* Reduce the height of the form container */
-        /* Decrease the width of the form container */
+        border: 3px solid #244b81;
+        padding: 30px; 
+        border-radius: 5px;     
+       /* background-color: #F7CAC9;*/      
+        min-height: 350px;    
         /* max-width: 350px; */
-        margin-left: 30px; /* Add left margin to the form container */
+        margin-left: 30px;
     }
 
     label {
-        margin-bottom: 20px; /* Increase the margin between label and control */
+        margin-bottom: 20px;
         display: block;
-        font-size: 16px; /* Increase the size of labels */
+        font-size: 16px; 
     }
 
     input[type="text"],
     select {
-        margin-bottom: 25px; /* Increase the margin between controls */
-        padding: 12px; /* Increase the padding of controls */
-        font-size: 16px; /* Increase the size of controls */
+        margin-bottom: 25px; 
+        padding: 12px; 
+        font-size: 16px; 
+        border: 1px solid #f1f1f1;
+        border-color: black;
+       
     }
 
     .form-group.mt-4 {
@@ -46,21 +46,23 @@
         padding-bottom: 5px;
         
     }
+    .form-group input{
+        border: 1px solid #f1f1f1; 
+        border-color: black;
+    }
 
     .btn-primary.btn-lg {
-        padding: 10px 20px; /* Adjust the height of the "Save" button */
-        font-size: 18px; /* Adjust the font size of the "Save" button */
+        padding: 10px 20px; 
+        font-size: 18px; 
         display: block; /* Center the button horizontally */
         margin: 0; /* Remove the default margin for the button */
         background-color: #244b81;
     }
 
 
-
-    /* The rest of your styles */
 </style>
 
-<h1>Diseases</h1>
+<h1>Add Diseases</h1>
 
 <div class="row container">
     <div class="col-md-8">
@@ -71,7 +73,8 @@
 
                 <div class="form-group">
                     <label asp-for="DiseaseCategory" class="control-label"></label>
-                    <select asp-for="DiseaseCategory" class="form-control" asp-items="@(ViewBag.Categories)">
+                    <select asp-for="DiseaseCategory" class="form-control" asp-items="@(ViewBag.Categories)" style="border: 1px solid #f1f1f1;
+        border-color: black" ;>
                         <option value="">Select a category</option>
                     </select>
                     <span asp-validation-for="DiseaseCategory" class="text-danger"></span>
@@ -98,10 +101,16 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
     <script>
         function showMessage() {
-            alert("Data saved successfully!");
+            var diseaseCategory = document.getElementById("DiseaseCategory");
+            var imageFile = document.getElementById("ImageFile");
+
+            if (!diseaseCategory.value || !imageFile.value) {
+                alert("Please enter values in all the required fields.");
+            } else {
+                alert("Data saved successfully!");
+            }
         }
     </script>
 }

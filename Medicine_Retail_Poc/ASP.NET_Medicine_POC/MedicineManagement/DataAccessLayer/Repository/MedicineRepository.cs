@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repository
 {
-    public class MedicineRepository: IMedicineRepository
+    public class MedicineRepository : IMedicineRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -60,6 +61,8 @@ namespace DataAccessLayer.Repository
             }
         }
 
+
+
         public IEnumerable<Medicine> GetAllMedicines()
         {
             try
@@ -107,6 +110,12 @@ namespace DataAccessLayer.Repository
                 throw new Exception("An error occurred while fetching the medicines from the database.", ex);
             }
         }
+
+        public List<string> GetDiseaseCategories()
+        {
+            return Disease.DiseaseCategories;
+        }
+
 
         public void Save()
         {

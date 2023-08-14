@@ -12,19 +12,24 @@
 
 
         form {
-            border: 3px solid #f1f1f1;
             width: 60%;
             margin: auto;
-            margin-top: 5%;
+            margin-top: 2%;
+            /*background-color: #F7CAC9;*/
+            border: 3px solid #f1f1f1;
+            border-color: #244b81;
         }
+
 
         input[type=text], input[type=password] {
             width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
+            padding: 8px 20px; /* Adjust the padding values */
+            margin: 4px 0; /* Adjust the margin values */
             display: inline-block;
-            border: 1px solid #ccc;
+            /*border: 1px solid #ccc;*/
             box-sizing: border-box;
+            border: 1px solid #f1f1f1;
+            border-color: black;
         }
 
         button {
@@ -67,7 +72,7 @@
             <input type="text" asp-for="Email" placeholder="Enter Email">
             <div class="msg">
                 <span class="err" asp-validation-for="Email"></span>
-            </div>
+            </div><br />
 
             <label asp-for="Password"><b>Password</b></label>
             <input type="password" asp-for="Password" placeholder="Enter Password">
@@ -76,7 +81,10 @@
             </div>
 
             <div style="display: inline-block;">
-                <button type="submit" onclick="showMessage()">Login</button>
+                <div>
+                    <button type="submit" onclick="showMessageAndRedirect('@Url.Action("Create", "Disease")', '@Url.Action("Index", "Home")')">Login</button>
+                </div>
+
             </div>
             <div style="display: inline-block;">
                 <button type="button" onclick="location.href='/Home/Index'">Cancel</button>
@@ -91,9 +99,20 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
+
     <script>
-        function showMessage() {
-            alert("Login Successfull!");
+        function showMessageAndRedirect(urlAdmin, urlUser) {
+            var url = userIsAdmin ? urlAdmin : urlUser;
+
+            if (url === null) {
+                alert("Invalid email or password.");
+            } else {
+                alert("Login Successful!");
+
+                setTimeout(function () {
+                    window.location.href = url;
+                }, 2000); // 2000 milliseconds (2 seconds) delay before redirection
+            }
         }
     </script>
     }

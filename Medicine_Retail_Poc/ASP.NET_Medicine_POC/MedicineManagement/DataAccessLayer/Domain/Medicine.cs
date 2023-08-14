@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataAccessLayer.Domain
 {
@@ -28,7 +24,7 @@ namespace DataAccessLayer.Domain
 
         public DateTime Expd { get; set; }
 
-        public float weight { get; set; }
+        public string weight { get; set; }
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }
