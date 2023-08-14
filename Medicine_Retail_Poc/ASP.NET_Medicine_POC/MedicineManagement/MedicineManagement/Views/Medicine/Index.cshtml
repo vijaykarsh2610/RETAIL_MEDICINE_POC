@@ -151,7 +151,31 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         <script>
             function showMessage() {
-                alert("Data Inserted!");
+                var requiredFields = [
+                    "disease_category",
+                    "ImageFile",
+                    "medicine_name",
+                    "brand_name",
+                    "mfd",
+                    "Expd",
+                    "weight",
+                    "cost"
+                ];
+
+                var allFieldsFilled = true;
+
+                requiredFields.forEach(function (fieldName) {
+                    var field = document.getElementById(fieldName);
+                    if (!field.value) {
+                        allFieldsFilled = false;
+                    }
+                });
+
+                if (allFieldsFilled) {
+                    alert("Data Inserted!");
+                } else {
+                    alert("Please enter values in all the required fields.");
+                }
             }
         </script>
     }
