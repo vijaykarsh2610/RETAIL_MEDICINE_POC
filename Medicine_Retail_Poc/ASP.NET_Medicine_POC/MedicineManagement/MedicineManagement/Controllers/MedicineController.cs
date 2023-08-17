@@ -154,6 +154,7 @@ namespace MedicineManagement.Controllers
                 }
 
                 _service.DeleteMedicine(medicine);
+                TempData["Message"] = "Deleted";
                 return RedirectToAction("Home", "Disease");
             }
             catch (Exception ex)

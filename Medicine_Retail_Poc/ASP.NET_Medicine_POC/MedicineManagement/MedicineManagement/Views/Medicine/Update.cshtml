@@ -78,9 +78,28 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary" onclick="ShowMessage()">Update</button>
                 <a asp-action="Index" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </div>
+@section Scripts {
+    <script>
+        function ShowMessage() {
+            var medicineName = document.getElementById("medicine_name");
+            var brandName = document.getElementById("brand_name");
+            var cost = document.getElementById("cost");
+            var diseaseCategory = document.getElementById("disease_category");
+            var mfd = document.getElementById("mfd");
+            var expd = document.getElementById("Expd");
+            var weight = document.getElementById("weight");
+
+            if (!medicineName.value || !brandName.value || !cost.value || !diseaseCategory.value || !mfd.value || !expd.value || !weight.value) {
+                alert("Please enter values in all the required fields.");
+            } else {
+                alert("Updated successfully!");
+            }
+        }
+    </script>
+}
