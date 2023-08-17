@@ -10,6 +10,6 @@ namespace DataAccessLayer.Domain
     {
         public int Id { get; set; }
         public int MedicineId { get; set; }
-        public string PaymentVerification { get; set; }
+        public string? PaymentVerification { get; set; }
     }
 }
