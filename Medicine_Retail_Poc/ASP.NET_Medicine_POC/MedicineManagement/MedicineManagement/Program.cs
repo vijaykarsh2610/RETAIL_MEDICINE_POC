@@ -27,6 +27,7 @@ builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 // Add services
 builder.Services.AddScoped<ILoginService, LoginService>();
@@ -34,7 +35,7 @@ builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IDiseaseService, DiseaseService>();
 builder.Services.AddScoped<IMedicineService, MedicineService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-
+builder.Services.AddScoped<ICartService, CartService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

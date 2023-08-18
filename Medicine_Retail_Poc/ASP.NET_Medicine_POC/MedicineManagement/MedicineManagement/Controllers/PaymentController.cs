@@ -16,19 +16,22 @@ namespace MedicineManagement.Controllers
 
         private readonly ApplicationDbContext _context;
 
-        public PaymentController(IPaymentService service,IMedicineService medicineService, IWebHostEnvironment environment,ApplicationDbContext dbContext)
+        private readonly ICartService _cart;
+
+        public PaymentController(IPaymentService service,IMedicineService medicineService, IWebHostEnvironment environment,ApplicationDbContext dbContext,ICartService cartService)
         {
             _service = service;
             _environment = environment;
             _medicineService = medicineService;
             _context = dbContext;
+            _cart = cartService;
         }
         public IActionResult PaymentVerification(int id)
         {
             // Find the medicine in the database
-            var medicine = _medicineService.GetMedicineById(id);
+            var item = _cart.GetCartItems().FirstOrDefault(m => m.Id == id);
 
-            if (medicine == null)
+            if (item == null)
             {
                 return NotFound();
             }
@@ -37,17 +40,18 @@ namespace MedicineManagement.Controllers
             var paymentVerification = _service.GeneratePaymentVerification();
 
             // Save the payment verification to the database
-            _service.AddPayment(medicine.Id, paymentVerification);
+            _service.AddPayment(item.Id, paymentVerification);
 
             // Pass the payment verification to the view
             ViewBag.PaymentVerification = paymentVerification;
+            ViewBag.ItemId = item.Id;
 
-            return View();
+            return View(item);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult VerifyPayment(string paymentVerification)
+        public IActionResult VerifyPayment(string paymentVerification,int id)
         {
             // Find the payment in the database
             var payment = _context.Payments.FirstOrDefault(p => p.PaymentVerification == paymentVerification);
@@ -57,6 +61,8 @@ namespace MedicineManagement.Controllers
                 // Payment successful
                 _context.Payments.Remove(payment);
                 _context.SaveChanges();
+                var item = _context.AddToCart.FirstOrDefault(i => i.Id == id);
+                _cart.RemoveItemFromCart(item);
 
                 // Pass a flag to the view to indicate payment success
                 ViewBag.PaymentSuccess = true;

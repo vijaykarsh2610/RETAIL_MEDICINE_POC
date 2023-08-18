@@ -34,6 +34,8 @@ namespace DataAccessLayer.Data
 
         public DbSet<Payments> Payments { get; set; }
 
+        public DbSet<AddToCart> AddToCart { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    base.OnModelCreating(modelBuilder);

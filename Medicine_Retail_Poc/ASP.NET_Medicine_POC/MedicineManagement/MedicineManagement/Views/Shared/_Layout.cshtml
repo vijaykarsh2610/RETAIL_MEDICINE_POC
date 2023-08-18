@@ -14,10 +14,13 @@
             /*  background-color:lightskyblue;*/
             background-color: #5893d4;
             color: white;
+            border-radius: 25px;
         }
 
-        ul li:hover {
+        ul li a:hover {
             background-color: cadetblue;
+            border-radius: 25px;
+            height: 45px;
         }
 
         ul li a {
@@ -27,6 +30,17 @@
             text-decoration: none;
             font-size: 20px;
             padding: 10px 20px;
+        }
+
+        ul li p {
+            display: block;
+            color: gold;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 10px 20px;
+            font-style: italic;
+            height:0px;
         }
     </style>
 </head>
@@ -45,12 +59,20 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
+                                <p class=" @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Hello" ? "active" : "")"
+                                   asp-area="" asp-controller="Home" asp-action="Hello">Hello @User.Identity.Name!</p>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"
                                    asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
+                            // add cart buton and icon as a list item in the navbar
                             <li class="nav-item">
-                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && ViewContext.RouteData.Values["Action"].ToString() == "Hello" ? "active" : "")"
-                                   asp-area="" asp-controller="Home" asp-action="Hello">Hello @User.Identity.Name!</a>
+                                <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Cart" && ViewContext.RouteData.Values["Action"].ToString() == "AddToCart" ? "active" : "")"
+                                   asp-area="" asp-controller="Cart" asp-action="AddToCart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Cart
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light font-weight-bold @(ViewContext.RouteData.Values["Controller"].ToString() == "Logout" && ViewContext.RouteData.Values["Action"].ToString() == "Logout" ? "active" : "")"

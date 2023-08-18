@@ -14,10 +14,13 @@
         #helloLink.active {
             background-color: #5893d4; /* Set the desired background color */
             color: white; /* Set text color to ensure readability */
+            border-radius: 25px;
         }
 
-        ul li:hover {
+        ul li a:hover {
             background-color: cadetblue;
+            border-radius: 25px;
+            height: 45px;
         }
 
         ul li a {
@@ -27,6 +30,17 @@
             text-decoration: none;
             font-size: 20px;
             padding: 10px 20px;
+        }
+
+        ul li p {
+            display: block;
+            color: gold;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 10px 20px;
+            font-style: italic;
+            height:0px;
         }
 
         /* Active navigation item style */
@@ -61,10 +75,10 @@
                         {
                             // add a list item for authenticated user to display user name and logout link
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Disease" asp-action="Home">Home</a>
+                                <p id="" class="" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</p>
                             </li>
                             <li class="nav-item">
-                                <a id="helloLink" class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Hello @User.Identity.Name!</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Disease" asp-action="Home">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Logout" asp-action="Logout"> Logout</a>

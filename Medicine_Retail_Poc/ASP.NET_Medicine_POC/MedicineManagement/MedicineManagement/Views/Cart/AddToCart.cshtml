@@ -1,0 +1,47 @@
+﻿@model IEnumerable<DataAccessLayer.Domain.AddToCart>
+
+<h2>Cart <i class="fas fa-shopping-cart"></i></h2>
+
+@if (Model.Count() == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Medicine Name</th>
+                <th>Brand Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Weight/Capacity</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MedicineName</td>
+                    <td>@item.BrandName</td>
+                    <td>@item.Category</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Weight</td>
+                    <td>@item.TotalCost</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <a href="@Url.Action("PaymentVerification", "Payment", new { id = item.Id})" class="btn btn-primary">Buy Now</a>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="ClearCart" asp-controller="Cart" method="post">
+        <button type="submit" class="btn btn-danger">Clear Cart</button>
+    </form>
+}

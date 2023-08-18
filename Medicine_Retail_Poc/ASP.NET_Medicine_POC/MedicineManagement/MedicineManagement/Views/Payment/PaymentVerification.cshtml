@@ -15,6 +15,7 @@
     <div class="form-group">
         <label for="paymentVerification">Payment Verification Code:</label>
         <input type="text" class="form-control" id="paymentVerification" name="paymentVerification" required>
+        <input type="hidden" name="id" value="@ViewBag.ItemId" />
     </div>
     @if (ViewBag.PaymentSuccess != null && ViewBag.PaymentSuccess)
     {
