@@ -14,9 +14,9 @@ namespace DataAccessLayer.Domain
         
         // add brand_name,disease_category,cost,mfd,Expd,weight/capacity,image properties
 
-        public string brand_name { get; set; }
+        public string? brand_name { get; set; }
 
-        public string disease_category { get; set; }
+        public string? disease_category { get; set; }
 
         public float cost { get; set; }
 
@@ -24,7 +24,7 @@ namespace DataAccessLayer.Domain
 
         public DateTime Expd { get; set; }
 
-        public string weight { get; set; }
+        public string? weight { get; set; }
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }

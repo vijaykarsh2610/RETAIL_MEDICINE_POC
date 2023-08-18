@@ -9,66 +9,97 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-6">
-        <form asp-action="Update" method="post" enctype="multipart/form-data">
+    <div class="col-md-8 offset-md-2">
+        <form asp-action="Update" method="post" enctype="multipart/form-data" style="border: 1px solid #ccc; padding: 20px; width: 95%;">
             <input type="hidden" asp-for="Id" />
 
-            <div class="form-group">
-                <label asp-for="medicine_name" class="form-label">Medicine Name</label>
-                <input asp-for="medicine_name" class="form-control" />
-                <span asp-validation-for="medicine_name" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="medicine_name" class="form-label">Medicine Name</label>
+                        <input asp-for="medicine_name" class="form-control" />
+                        <span asp-validation-for="medicine_name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="brand_name" class="form-label">Brand Name</label>
+                        <input asp-for="brand_name" class="form-control" />
+                        <span asp-validation-for="brand_name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="cost" class="form-label">Cost</label>
+                        <input asp-for="cost" class="form-control" />
+                        <span asp-validation-for="cost" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="disease_category" class="form-label">Disease Category</label>
+                        <select asp-for="disease_category" asp-items="@ViewBag.Categories" class="form-control"></select>
+                        <span asp-validation-for="disease_category" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="mfd" class="form-label">Manufacturing Date</label>
+                        <input asp-for="mfd" class="form-control" />
+                        <span asp-validation-for="mfd" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Expd" class="form-label">Expiry Date</label>
+                        <input asp-for="Expd" class="form-control" />
+                        <span asp-validation-for="Expd" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="weight" class="form-label">Weight</label>
+                        <input asp-for="weight" class="form-control" />
+                        <span asp-validation-for="weight" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ImageFile" class="form-label">Image</label>
+                        <input asp-for="ImageFile" type="file" class="form-control-file" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <img src="@Model.ImagePath" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="brand_name" class="form-label">Brand Name</label>
-                <input asp-for="brand_name" class="form-control" />
-                <span asp-validation-for="brand_name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="disease_category" class="form-label">Disease Category</label>
-                <select asp-for="disease_category" asp-items="@ViewBag.Categories" class="form-control"></select>
-                <span asp-validation-for="disease_category" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="cost" class="form-label">Cost</label>
-                <input asp-for="cost" class="form-control" />
-                <span asp-validation-for="cost" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="mfd" class="form-label">Manufacturing Date</label>
-                <input asp-for="mfd" class="form-control" />
-                <span asp-validation-for="mfd" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Expd" class="form-label">Expiry Date</label>
-                <input asp-for="Expd" class="form-control" />
-                <span asp-validation-for="Expd" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="weight" class="form-label">Weight</label>
-                <input asp-for="weight" class="form-control" />
-                <span asp-validation-for="weight" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ImageFile" class="form-label">Image</label>
-                <input asp-for="ImageFile" type="file" class="form-control-file" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <img src="@Model.ImagePath" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary" onclick="ShowMessage()">Update</button>
                 <a asp-action="Index" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>
 </div>
+@section Scripts {
+    <script>
+        function ShowMessage() {
+            var medicineName = document.getElementById("medicine_name");
+            var brandName = document.getElementById("brand_name");
+            var cost = document.getElementById("cost");
+            var diseaseCategory = document.getElementById("disease_category");
+            var mfd = document.getElementById("mfd");
+            var expd = document.getElementById("Expd");
+            var weight = document.getElementById("weight");
+
+            if (!medicineName.value || !brandName.value || !cost.value || !diseaseCategory.value || !mfd.value || !expd.value || !weight.value) {
+                alert("Please enter values in all the required fields.");
+            } else {
+                alert("Updated successfully!");
+            }
+        }
+    </script>
+}

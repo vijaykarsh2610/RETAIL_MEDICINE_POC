@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Medicines by Category";
     Layout = "~/Views/Shared/Disease.cshtml";
+    var message = TempData["Message"] as string;
+}
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <script>
+        alert("Deleted");
+    </script>
 }
 
 <div class="row mt-4">
@@ -12,7 +20,7 @@
         <h1 class="mt-5 mb-3" style="padding: 5px 15px; border-bottom: 1px solid #ddd;">Medicines by Category: @ViewBag.Category</h1>
     </div>
     
-        <!--// create a table to display the medicines in a tabular format ignore image coming from medicine model column heading should be name,brand, category, cost, mfd, expd, weight,action update and delete and value should be from medicine model adjust table in center of the page--!>
+        <!-- create a table to display the medicines in a tabular format ignore image coming from medicine model column heading should be name,brand, category, cost, mfd, expd, weight,action update and delete and value should be from medicine model adjust table in center of the page-->
 
         <div class="col-md-12 mt-4">
             <div class="card" style="margin-left: 15px; margin-top: 0px; padding: 2px; width: 90%; height: 320px;">

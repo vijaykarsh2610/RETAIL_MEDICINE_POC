@@ -10,7 +10,7 @@ namespace DataAccessLayer.Domain
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Please select a Disease Category.")]
-        public string DiseaseCategory { get; set; }
+        public string? DiseaseCategory { get; set; }
 
         // Property to store the file upload
         [NotMapped]
