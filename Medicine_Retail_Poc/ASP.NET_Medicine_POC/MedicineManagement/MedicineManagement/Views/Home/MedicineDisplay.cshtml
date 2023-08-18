@@ -85,14 +85,19 @@
                             </div>
                         </div>
                     </form>
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <a href="@Url.Action("PaymentVerification", "Payment", new { id = Model.Id })" class="btn btn-primary">Buy Now</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="form-group row">
+                            <div class="col-md-6 text-right">
+                                <button type="button" class="btn btn-primary" id="addToCartButton">Add to Cart</button>
+                            </div>
                         </div>
-                        <div class="col-md-6 text-right">
-                            <button type="button" class="btn btn-primary" style="background-color:#244b81" id="saveToCartButton">Save to Cart</button>
-                        </div>
-                    </div>
+                    }
+                    else
+                    {
+                        // If the user is not authenticated, show a message to the user to login first and redirect to the login page
+                        <p class="text-center">Please <a href="@Url.Action("Index", "Login")">login</a> to buy the medicine.</p>
+                    }
                 </div>
             </div>
         </div>
@@ -111,4 +116,31 @@
     var calculateButton = document.getElementById('calculateButton');
     calculateButton.addEventListener('click', calculateTotalCost);
     calculateTotalCost();
+</script>
+
+<script>
+    var addToCartButton = document.getElementById('addToCartButton');
+    addToCartButton.addEventListener('click', function () {
+        var medicineId = '@Model.Id';
+        var medicineName = '@Model.medicine_name';
+        var brandName = '@Model.brand_name';
+        var category = '@Model.disease_category';
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var weight = '@Model.weight';
+        var cost = parseFloat('@Model.cost');
+
+        // Send an AJAX request to the server to add the medicine to the cart
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '@Url.Action("AddToCart", "Cart")' + '?id=' + medicineId + '&quantity=' + encodeURIComponent(quantity));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert('Medicine added to cart successfully!');
+                window.location.href = '@Url.Action("AddToCart", "Cart")';
+            } else {
+                alert('An error occurred while adding the medicine to cart. Please try again later.');
+            }
+        };
+        xhr.send(JSON.stringify({ medicineId: medicineId, medicineName: medicineName, brandName: brandName, category: category, quantity: quantity, weight: weight }));
+    });
 </script>
