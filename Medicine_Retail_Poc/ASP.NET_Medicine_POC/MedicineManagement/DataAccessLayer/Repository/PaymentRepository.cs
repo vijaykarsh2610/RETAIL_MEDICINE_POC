@@ -19,8 +19,15 @@ namespace DataAccessLayer.Repository
 
         public void AddPayment(Payments payment)
         {
-            _context.Payments.Add(payment);
-            _context.SaveChanges();
+            try
+            {
+                _context.Payments.Add(payment);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding payment: {ex.Message}");
+            }
         }
     }
 }

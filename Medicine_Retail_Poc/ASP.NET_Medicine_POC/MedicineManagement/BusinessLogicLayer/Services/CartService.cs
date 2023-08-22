@@ -19,33 +19,63 @@ namespace BusinessLogicLayer.Services
 
         public void AddItemToCart(Medicine medicine, int quantity)
         {
-            var item = new AddToCart
+            try
             {
-                MedicineId = medicine.Id,
-                MedicineName = medicine.medicine_name,
-                BrandName = medicine.brand_name,
-                Category = medicine.disease_category,
-                Quantity = quantity,
-                Weight = medicine.weight,
-                TotalCost = medicine.cost * quantity
-            };
+                var item = new AddToCart
+                {
+                    MedicineId = medicine.Id,
+                    MedicineName = medicine.medicine_name,
+                    BrandName = medicine.brand_name,
+                    Category = medicine.disease_category,
+                    Quantity = quantity,
+                    Weight = medicine.weight,
+                    TotalCost = medicine.cost * quantity
+                };
 
-            _repository.AddItem(item);
+                _repository.AddItem(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while adding item to cart: {ex.Message}");
+            }
         }
 
         public void RemoveItemFromCart(AddToCart item)
         {
-            _repository.RemoveItem(item);
+            try
+            {
+                _repository.RemoveItem(item);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while removing item from cart: {ex.Message}");
+            }
         }
 
         public void ClearCart()
         {
-            _repository.Clear();
+            try
+            {
+                _repository.Clear();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while clearing cart: {ex.Message}");
+            }
         }
 
         public IEnumerable<AddToCart> GetCartItems()
         {
-            return _repository.GetItems();
+            try
+            {
+                return _repository.GetItems();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while getting cart items: {ex.Message}");
+                return null;
+            }
         }
     }
+        
 }

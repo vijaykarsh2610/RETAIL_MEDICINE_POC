@@ -22,41 +22,68 @@ namespace DataAccessLayer.Repository
 
         public void AddItem(AddToCart item)
         {
-            var existingItem = _items.FirstOrDefault(i => i.MedicineId == item.MedicineId);
-            if (existingItem != null)
+            try
             {
-                existingItem.Quantity += item.Quantity;
+                var existingItem = _items.FirstOrDefault(i => i.MedicineId == item.MedicineId);
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += item.Quantity;
+                }
+                else
+                {
+                    _context.AddToCart.Add(item);
+                    _context.SaveChanges();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //item.Id = _items.Count + 1;
-                //_items.Add(item);
-                _context.AddToCart.Add(item);
-                _context.SaveChanges();
+                Console.WriteLine($"Error occurred while adding item to cart: {ex.Message}");
             }
         }
 
         public void RemoveItem(AddToCart item)
         {
-            var _item = _items.FirstOrDefault(i => i.Id == item.Id);
-            if (item != null)
+            try
             {
-                _context.Remove(item);
-                _context.SaveChanges();
+                var _item = _items.FirstOrDefault(i => i.Id == item.Id);
+                if (item != null)
+                {
+                    _context.Remove(item);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while removing item from cart: {ex.Message}");
             }
         }
 
         public void Clear()
         {
-            var items = _context.AddToCart.ToList();
-            _context.RemoveRange(items);
-            _context.SaveChanges();
+            try
+            {
+                var items = _context.AddToCart.ToList();
+                _context.RemoveRange(items);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while clearing cart: {ex.Message}");
+            }
         }
 
         public IEnumerable<AddToCart> GetItems()
         {
-            //get all items from database in AddToCart table and return them
-            return _context.AddToCart.ToList();
+            try
+            {
+                //get all items from database in AddToCart table and return them
+                return _context.AddToCart.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occurred while getting items from cart: {ex.Message}");
+                return null;
+            }
         }
     }
 }
