@@ -2,105 +2,197 @@
 
 @{
     ViewData["Title"] = "Update Medicine";
-    Layout = "~/Views/Shared/Disease.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<hr />
-
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <form asp-action="Update" method="post" enctype="multipart/form-data" style="border: 1px solid #ccc; padding: 20px; width: 95%;">
-            <input type="hidden" asp-for="Id" />
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="medicine_name" class="form-label">Medicine Name</label>
-                        <input asp-for="medicine_name" class="form-control" />
-                        <span asp-validation-for="medicine_name" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="brand_name" class="form-label">Brand Name</label>
-                        <input asp-for="brand_name" class="form-control" />
-                        <span asp-validation-for="brand_name" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="cost" class="form-label">Cost</label>
-                        <input asp-for="cost" class="form-control" />
-                        <span asp-validation-for="cost" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="disease_category" class="form-label">Disease Category</label>
-                        <select asp-for="disease_category" asp-items="@ViewBag.Categories" class="form-control"></select>
-                        <span asp-validation-for="disease_category" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="mfd" class="form-label">Manufacturing Date</label>
-                        <input asp-for="mfd" class="form-control" />
-                        <span asp-validation-for="mfd" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Expd" class="form-label">Expiry Date</label>
-                        <input asp-for="Expd" class="form-control" />
-                        <span asp-validation-for="Expd" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="weight" class="form-label">Weight</label>
-                        <input asp-for="weight" class="form-control" />
-                        <span asp-validation-for="weight" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="ImageFile" class="form-label">Image</label>
-                        <input asp-for="ImageFile" type="file" class="form-control-file" />
-                        <span asp-validation-for="ImageFile" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <img src="@Model.ImagePath" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary" onclick="ShowMessage()">Update</button>
-                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
-    </div>
+<!-- Message Overlay for Center Display -->
+<div class="centered" id="messageCenter">
+    @if (TempData["MedicineMessage"] != null)
+    {
+        <div class="alert alert-@(TempData["MedicineMessage"].ToString().Contains("successfully") ? "success" : "danger")">
+            @TempData["MedicineMessage"]
+        </div>
+    }
 </div>
-@section Scripts {
-    <script>
-        function ShowMessage() {
-            var medicineName = document.getElementById("medicine_name");
-            var brandName = document.getElementById("brand_name");
-            var cost = document.getElementById("cost");
-            var diseaseCategory = document.getElementById("disease_category");
-            var mfd = document.getElementById("mfd");
-            var expd = document.getElementById("Expd");
-            var weight = document.getElementById("weight");
 
-            if (!medicineName.value || !brandName.value || !cost.value || !diseaseCategory.value || !mfd.value || !expd.value || !weight.value) {
-                alert("Please enter values in all the required fields.");
-            } else {
-                alert("Updated successfully!");
-            }
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+
+
+        /* Center Message Overlay Styles */
+        .centered {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
-    </script>
+
+
+        /* Adjust the width and spacing of the form container */
+        .form-container {
+            width: 80%;
+            margin: 5px auto;
+            padding: 5px 10px; /* Adjust the padding to decrease container height */
+            border: 3px solid #f1f1f1;
+            border-color: #244b81;
+        }
+
+        h4 {
+            text-align: center;
+        }
+
+        /* Add border to all input fields */
+        input[type="text"],
+        select,
+        input[type="file"],
+        input[type="date"] {
+            border: 1px solid #f1f1f1;
+            border-color: black;
+            padding: 6px 12px;
+            width: 100%;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <h4>@ViewData["Title"]</h4>
+
+    <div class="row container">
+        <div class="col-md-8 mx-auto">
+            <div class="form-container">
+                <form asp-action="Update" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="disease_category" class="control-label"></label>
+                                <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)">
+                                    <option value="">Select a category</option>
+                                </select>
+                                <span asp-validation-for="disease_category" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ImageFile" class="control-label"></label>
+                                <!-- Use the ImageFile property for file upload -->
+                                <input asp-for="ImageFile" type="file" class="form-control" />
+                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="medicine_name" class="control-label"></label>
+                                <input asp-for="medicine_name" class="form-control" />
+                                <span asp-validation-for="medicine_name" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="brand_name" class="control-label"></label>
+                                <input asp-for="brand_name" class="form-control" />
+                                <span asp-validation-for="brand_name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="mfd" class="control-label"></label>
+                                <input asp-for="mfd" class="form-control" type="date" />
+                                <span asp-validation-for="mfd" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Expd" class="control-label"></label>
+                                <input asp-for="Expd" class="form-control" type="date" />
+                                <span asp-validation-for="Expd" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="composition" class="control-label"></label>
+                                <input asp-for="composition" class="form-control" />
+                                <span asp-validation-for="composition" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="formulation_type" class="control-label"></label>
+                                <input asp-for="formulation_type" class="form-control" /><br />
+                                <span asp-validation-for="formulation_type" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="weight" class="control-label"></label>
+                                <input asp-for="weight" class="form-control" />
+                                <span asp-validation-for="weight" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="cost" class="control-label"></label>
+                                <input asp-for="cost" class="form-control" />
+                                <span asp-validation-for="cost" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-left">
+                        <button type="submit" class="btn btn-primary mt-2" onclick="ShowMessage()">Update</button>
+                        <a asp-action="Index" class="btn btn-secondary mt-2">Cancel</a>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script>
+            $(document).ready(function () {
+                // Remove the message overlay after a certain delay
+                setTimeout(function () {
+                    $("#messageCenter").fadeOut();
+                }, 1000); // Change the delay as needed
+            });
+        </script>
+
+    }
+
 }

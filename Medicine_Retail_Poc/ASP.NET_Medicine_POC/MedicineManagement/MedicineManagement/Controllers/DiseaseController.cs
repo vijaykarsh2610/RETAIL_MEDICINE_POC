@@ -40,6 +40,17 @@ namespace MedicineManagement.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            // Display the alert message if available
+            if (TempData["LoginMessage"] != null)
+            {
+                ViewBag.LoginMessage = TempData["LoginMessage"];
+                ViewBag.IsAdmin = TempData["IsAdmin"] != null && (bool)TempData["IsAdmin"];
+
+                // Clear TempData to prevent the message from showing again on subsequent requests
+                TempData["LoginMessage"] = null;
+                TempData["IsAdmin"] = null;
+            }
+
             var categories = _service.GetDiseaseCategories();
             ViewBag.Categories = new SelectList(categories);
             return View();
@@ -52,41 +63,55 @@ namespace MedicineManagement.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (model.ImageFile != null && model.ImageFile.Length > 0)
-                    {
-                        // Generate a unique filename for the image
-                        var fileName = Path.GetRandomFileName() + Path.GetExtension(model.ImageFile.FileName);
+                    var existingDiseaseWithCategory = _service.GetDiseases()
+                        .FirstOrDefault(d => d.DiseaseCategory == model.DiseaseCategory);
 
-                        // Save the image to the wwwroot/images directory
-                        var imagePath = Path.Combine(_environment.WebRootPath, "images", fileName);
-                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                    if (existingDiseaseWithCategory != null)
+                    {
+                        ModelState.AddModelError("DiseaseCategory", "A disease with the same category already exists.");
+                    }
+                    else
+                    {
+                        if (model.ImageFile != null && model.ImageFile.Length > 0)
                         {
-                            model.ImageFile.CopyTo(fileStream);
+                            // Generate a unique filename for the image
+                            var fileName = Path.GetRandomFileName() + Path.GetExtension(model.ImageFile.FileName);
+
+                            // Save the image to the wwwroot/images directory
+                            var imagePath = Path.Combine(_environment.WebRootPath, "images", fileName);
+                            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                            {
+                                model.ImageFile.CopyTo(fileStream);
+                            }
+
+                            // Set the ImagePath property of the disease object to the filename
+                            model.ImagePath = "/images/" + fileName;
                         }
 
-                        // Set the ImagePath property of the disease object to the filename
-                        model.ImagePath = "/images/" + fileName; // Update the path here
-                    }
+                        _service.AddDisease(model);
 
-                    _service.AddDisease(model);
-                    return RedirectToAction("Create", "Disease");
+                        // Set a temporary success message to be displayed on the next page load
+                        TempData["Message"] = "Disease added successfully.";
+
+                        return RedirectToAction("Create", "Disease");
+                    }
                 }
-                else
-                {
-                    var categories = _service.GetDiseaseCategories();
-                    ViewBag.Categories = new SelectList(categories);
-                    return View(model);
-                }
+
+                // If ModelState is not valid or a duplicate disease category was found,
+                // populate the ViewBag and return the view
+                var categories = _service.GetDiseaseCategories();
+                ViewBag.Categories = new SelectList(categories);
+                return View(model);
             }
             catch (Exception ex)
             {
-                // Log or handle the exception as required
-                // In a production application, you might want to log the error or show an error page
+                // Handle the exception
                 ModelState.AddModelError("", "An error occurred while processing the request. Please try again later.");
                 var categories = _service.GetDiseaseCategories();
                 ViewBag.Categories = new SelectList(categories);
                 return View(model);
             }
         }
+
     }
 }

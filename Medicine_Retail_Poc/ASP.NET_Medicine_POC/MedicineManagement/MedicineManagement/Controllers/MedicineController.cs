@@ -1,7 +1,9 @@
 ﻿using BusinessLogicLayer.Services;
 using DataAccessLayer.Domain;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MedicineManagement.Controllers
 {
@@ -44,44 +46,37 @@ namespace MedicineManagement.Controllers
         {
             try
             {
+                var existingMedicine = _service.GetMedicinesByCategory(model.disease_category)
+                     .FirstOrDefault(m => m.medicine_name.Equals(model.medicine_name, StringComparison.OrdinalIgnoreCase));
+
+                if (existingMedicine != null)
+                {
+                    ModelState.AddModelError("medicine_name", "A medicine with the same name already exists in the selected category.");
+                    var categories = _service.GetDiseaseCategories();
+                    ViewBag.Categories = new SelectList(categories);
+                    return View("Index", model);
+                }
+
                 if (ModelState.IsValid)
                 {
-                    if (model.ImageFile != null && model.ImageFile.Length > 0)
-                    {
-                        // Generate a unique filename for the image
-                        var fileName = Path.GetRandomFileName() + Path.GetExtension(model.ImageFile.FileName);
-
-                        // Save the image to the wwwroot/images directory
-                        var imagePath = Path.Combine(_environment.WebRootPath, "images", fileName);
-                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                        {
-                            model.ImageFile.CopyTo(fileStream);
-                        }
-
-                        // Set the ImagePath property of the disease object to the filename
-                        model.ImagePath = "/images/" + fileName;
-                    }
-
+                    // Save the medicine and show success message
                     _service.AddMedicine(model);
+                    TempData["MedicineMessage"] = "Data inserted successfully!";
                     return RedirectToAction("Index", "Medicine");
                 }
                 else
                 {
-                    var categories = _service.GetDiseaseCategories();
-                    ViewBag.Categories = new SelectList(categories);
-                    return View(model);
+                    TempData["MedicineMessage"] = "Please enter valid data.";
+                    return View("Index", model); // Return to the same view with validation errors
                 }
             }
             catch (Exception ex)
             {
-                // Log or handle the exception as required
-                // In a production application, you might want to log the error or show an error page
-                ModelState.AddModelError("", "An error occurred while processing the request. Please try again later.");
-                var categories = _service.GetDiseaseCategories();
-                ViewBag.Categories = new SelectList(categories);
-                return View(model);
-            }
+                // Handle the exception as required
 
+                TempData["MedicineMessage"] = "An error occurred while processing the request. Please try again later.";
+                return RedirectToAction("Index", "Medicine");
+            }
         }
 
         //add methods to update,delete medicines
@@ -124,12 +119,14 @@ namespace MedicineManagement.Controllers
                     }
 
                     _service.UpdateMedicine(model);
+                    TempData["MedicineMessage"] = "Data updated successfully!";
                     return RedirectToAction("Index", "Medicine");
                 }
                 else
                 {
                     var categories = _service.GetDiseaseCategories();
                     ViewBag.Categories = new SelectList(categories);
+                    TempData["MedicineMessage"] = "Please enter valid data.";
                     return View(model);
                 }
             }
@@ -138,6 +135,7 @@ namespace MedicineManagement.Controllers
                 ModelState.AddModelError("", "An error occurred while processing the request. Please try again later.");
                 var categories = _service.GetDiseaseCategories();
                 ViewBag.Categories = new SelectList(categories);
+                TempData["MedicineMessage"] = "An error occurred while processing the request. Please try again later.";
                 return View(model);
             }
         }
@@ -154,7 +152,6 @@ namespace MedicineManagement.Controllers
                 }
 
                 _service.DeleteMedicine(medicine);
-                TempData["Message"] = "Deleted";
                 return RedirectToAction("Home", "Disease");
             }
             catch (Exception ex)

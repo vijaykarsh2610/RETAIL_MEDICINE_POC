@@ -3,63 +3,92 @@
 @{
     ViewData["Title"] = "Medicines by Category";
     Layout = "~/Views/Shared/Disease.cshtml";
-    var message = TempData["Message"] as string;
 }
 
-@if (!string.IsNullOrEmpty(message))
-{
-    <script>
-        alert("Deleted");
-    </script>
-}
+
+<style>
+    /* Custom table styles */
+    .custom-table {
+        border: 2px solid black;
+    }
+
+        .custom-table th {
+            border: 1px solid black;
+            font-weight: bold;
+            background-color: lightblue;
+        }
+
+        .custom-table td {
+            border: 1px solid black;
+        }
+
+        /* Change row background on hover */
+        .custom-table tbody tr:hover {
+            background-color: #FFFFE0;
+        }
+</style>
 
 <div class="row mt-4">
-    <!-- Add some top margin to the row -->
-    <div class="col-12" style="margin-top:20px;">
-        <!-- Create a full-width column to contain the heading -->
+    <div class="col-12">
         <h1 class="mt-5 mb-3" style="padding: 5px 15px; border-bottom: 1px solid #ddd;">Medicines by Category: @ViewBag.Category</h1>
     </div>
-    
-        <!-- create a table to display the medicines in a tabular format ignore image coming from medicine model column heading should be name,brand, category, cost, mfd, expd, weight,action update and delete and value should be from medicine model adjust table in center of the page-->
 
-        <div class="col-md-12 mt-4">
-            <div class="card" style="margin-left: 15px; margin-top: 0px; padding: 2px; width: 90%; height: 320px;">
-                <table class="table table-bordered">
-                    <thead>
+    <div class="col-md-12 mt-4">
+        <div class="card border-0" style="margin-left: 15px; margin-top: 0px; padding: 2px; width: 95%;">
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead class="thead-light">
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Brand</th>
                             <th scope="col">Category</th>
-                            <th scope="col">Cost</th>
+                            <th scope="col">Composition</th>
+                            <th scope="col">Formulation Type</th>
                             <th scope="col">Mfd</th>
                             <th scope="col">Expd</th>
                             <th scope="col">Weight</th>
+                            <th scope="col">Cost</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                @foreach (var medicine in Model)
-                {
                     <tbody>
-                        <tr>
-                            <td>@medicine.medicine_name</td>
-                            <td>@medicine.brand_name</td>
-                            <td>@medicine.disease_category</td>
-                            <td>@medicine.cost</td>
-                            <td>@medicine.mfd.ToShortDateString()</td>
-                            <td>@medicine.Expd.ToShortDateString()</td>
-                            <td>@medicine.weight</td>
-                            <td>
-                                <a href="@Url.Action("Update", "Medicine", new { id = medicine.Id })" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="@Url.Action("Delete", "Medicine", new { id = medicine.Id })" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
-                        </tr>
+                        @if (Model.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="10">No medicines added yet.</td>
+                            </tr>
+                        }
+                        else
+                        {
+
+                            @foreach (var medicine in Model)
+                            {
+                                <tr>
+                                    <td>@medicine.medicine_name</td>
+                                    <td>@medicine.brand_name</td>
+                                    <td>@medicine.disease_category</td>
+                                    <td>@medicine.composition</td>
+                                    <td>@medicine.formulation_type</td>
+                                    <td>@medicine.mfd.ToShortDateString()</td>
+                                    <td>@medicine.Expd.ToShortDateString()</td>
+                                    <td>@medicine.weight</td>
+                                    <td>@medicine.cost</td>
+                                    <td>
+                                        <a href="@Url.Action("Update", "Medicine", new { id = medicine.Id })" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="@Url.Action("Delete", "Medicine", new { id = medicine.Id })" onclick="showDeletedMessage()" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
-                }
                 </table>
             </div>
         </div>
-
-
-
-    
+    </div>
 </div>
+
+<script>
+    function showDeletedMessage() {
+        alert("Deleted");
+    }
+</script>
