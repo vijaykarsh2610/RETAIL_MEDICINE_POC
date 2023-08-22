@@ -24,7 +24,9 @@
         .form-group input {
             border: 1px solid #f1f1f1;
             border-color: black;
+            padding: 6px 12px; /* Add padding to input fields */
         }
+
         /* Clear the right margin for the last form-group in each row */
         .form-group:nth-child(2n+2) {
             margin-right: 0;
@@ -87,8 +89,7 @@
 
                 <div class="form-group">
                     <label asp-for="disease_category" class="control-label"></label>
-                    <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)" style="border: 1px solid #f1f1f1;
-        border-color: black" ;>
+                    <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)" style="border: 1px solid #f1f1f1; border-color: black;">
                         <option value="">Select a category</option>
                     </select>
                     <span asp-validation-for="disease_category" class="text-danger"></span>
@@ -97,44 +98,43 @@
                 <div class="form-group">
                     <label asp-for="ImageFile" class="control-label"></label>
                     <!-- Use the ImageFile property for file upload -->
-                    <input asp-for="ImageFile" type="file" class="form-control" />
+                    <input asp-for="ImageFile" type="file" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="ImageFile" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="medicine_name" class="control-label"></label>
-                    <input asp-for="medicine_name" class="form-control" />
+                    <input asp-for="medicine_name" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="medicine_name" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="brand_name" class="control-label"></label>
-                    <input asp-for="brand_name" class="form-control" />
+                    <input asp-for="brand_name" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="brand_name" class="text-danger"></span>
                 </div>
 
-
                 <div class="form-group">
                     <label asp-for="mfd" class="control-label"></label>
-                    <input asp-for="mfd" class="form-control" type="date" />
+                    <input asp-for="mfd" class="form-control" type="date" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="mfd" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Expd" class="control-label"></label>
-                    <input asp-for="Expd" class="form-control" type="date" />
+                    <input asp-for="Expd" class="form-control" type="date" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="Expd" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="weight" class="control-label"></label>
-                    <input asp-for="weight" class="form-control" />
+                    <input asp-for="weight" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="weight" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="cost" class="control-label"></label>
-                    <input asp-for="cost" class="form-control" />
+                    <input asp-for="cost" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
                     <span asp-validation-for="cost" class="text-danger"></span>
                 </div>
 
