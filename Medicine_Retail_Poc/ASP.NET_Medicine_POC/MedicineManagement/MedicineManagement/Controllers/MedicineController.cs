@@ -69,7 +69,7 @@ namespace MedicineManagement.Controllers
             try
             {
                 var existingMedicine = _service.GetMedicinesByCategory(model.disease_category)
-                     .FirstOrDefault(m => m.medicine_name.Equals(model.medicine_name, StringComparison.OrdinalIgnoreCase));
+                    .FirstOrDefault(m => m.medicine_name.Equals(model.medicine_name, StringComparison.OrdinalIgnoreCase));
 
                 if (existingMedicine != null)
                 {
@@ -81,6 +81,22 @@ namespace MedicineManagement.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        // Generate a unique filename for the image
+                        var fileName = Path.GetRandomFileName() + Path.GetExtension(model.ImageFile.FileName);
+
+                        // Save the image to the wwwroot/images directory
+                        var imagePath = Path.Combine(_environment.WebRootPath, "images", fileName);
+                        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            model.ImageFile.CopyTo(fileStream);
+                        }
+
+                        // Set the ImagePath property of the medicine object to the filename
+                        model.ImagePath = "/images/" + fileName;
+                    }
+
                     // Save the medicine and show success message
                     _service.AddMedicine(model);
                     TempData["MedicineMessage"] = "Data inserted successfully!";
@@ -91,6 +107,7 @@ namespace MedicineManagement.Controllers
                     TempData["MedicineMessage"] = "Please enter valid data.";
                     return View("Index", model); // Return to the same view with validation errors
                 }
+
             }
             catch (Exception ex)
             {
@@ -100,6 +117,7 @@ namespace MedicineManagement.Controllers
                 return RedirectToAction("Index", "Medicine");
             }
         }
+
 
         //add methods to update,delete medicines
 
