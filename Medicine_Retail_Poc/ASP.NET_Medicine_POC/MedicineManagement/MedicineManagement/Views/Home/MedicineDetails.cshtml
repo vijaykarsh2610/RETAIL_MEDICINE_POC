@@ -5,30 +5,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Medicines by Category: @ViewBag.Category</h2>
-
 <div class="row">
+    <h2>Medicines by Category: @ViewBag.Category</h2>
     @foreach (var medicine in Model)
     {
-        <div class="col-md-3 mt-4">
-            <div class="card">
+        <div class="col-md-3">
+            <div class="card border-2" style="border-color: #244b81;">
                 <img src="@Url.Content(medicine.ImagePath)" alt="@medicine.medicine_name" class="card-img-top" style="max-height: 100px; width:80%;">
                 <div class="card-body">
-                    <h6 class="card-title">@medicine.medicine_name</h6>
+                    <h5 class="card-title" style="color:darkmagenta;"><strong>@medicine.medicine_name</strong></h5>
                     <p class="card-text">
-                        Brand: @medicine.brand_name<br />
-                        Category: @medicine.disease_category<br />
-                        Cost: $@medicine.cost<br />
-                        Mfd: @medicine.mfd.ToShortDateString()<br />
-                        Expd: @medicine.Expd.ToShortDateString()<br />
-                        Weight/Capacity: @medicine.weight
+                        <strong>Brand:</strong> <span class="highlight">@medicine.brand_name</span><br />
+                        <strong>Category:</strong> <span class="highlight">@medicine.disease_category</span><br />
+                        <strong>Composition:</strong> @medicine.composition<br />
+                        <strong>Formulation_Type:</strong> @medicine.formulation_type<br />
+                        <strong>Mfd:</strong> @medicine.mfd.ToShortDateString()<br />
+                        <strong>Expd:</strong> @medicine.Expd.ToShortDateString()<br />
+                        <strong>Weight/Capacity:</strong> @medicine.weight<br />
+                        <strong>Cost:</strong> $@medicine.cost<br />
                     </p>
 
                     <a asp-action="MedicineDisplay" asp-controller="Home" asp-route-medicineId="@medicine.Id" class="btn btn-danger float-right" style="margin-right: 10px;">Add</a>
-                    @* <button type="button" class="btn btn-danger float-right" style="margin-right: 10px;">Add</button><br />*@
-                    @*  <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to All Medicines</a>*@
                 </div>
             </div>
         </div>
+
+
+
     }
 </div>
+
+<style>
+    .highlight {
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+</style>

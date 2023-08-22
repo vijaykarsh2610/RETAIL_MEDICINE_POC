@@ -4,179 +4,197 @@
     Layout = "~/Views/Shared/Disease.cshtml";
 }
 
-<style>
-    /* Your CSS styles here */
 
-    h1 {
-        margin-top: 93px;
-        margin-left: 50px;
-        font-size: 28px;
+
+<!-- Message Overlay for Center Display -->
+<div class="centered" id="messageCenter">
+    @if (TempData["MedicineMessage"] != null)
+    {
+        <div class="alert alert-@(TempData["MedicineMessage"].ToString().Contains("successfully") ? "success" : "danger")">
+            @TempData["MedicineMessage"]
+        </div>
     }
+</div>
 
-    /* Use the Bootstrap grid classes to create a two-column layout */
-    .form-group {
-        display: inline-block;
-        width: 45%;
-        margin-right: 5%;
-        margin-bottom: 20px;
-    }
+<!-- Rest of your view content -->
 
-        .form-group input {
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include the Bootstrap CSS link -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+
+        /* Center Message Overlay Styles */
+        .centered {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Adjust the width and spacing of the form container */
+        .form-container {
+            width: 80%;
+            margin: 8px auto;
+            padding: 7px 15px;
+            border: 3px solid #f1f1f1;
+            border-color: #244b81;
+        }
+
+        h1 {
+            text-align: center; /* Center the heading */
+        }
+
+        /* Add border to all input fields */
+        input[type="text"],
+        select,
+        input[type="file"],
+        input[type="date"] {
             border: 1px solid #f1f1f1;
             border-color: black;
-            padding: 6px 12px; /* Add padding to input fields */
+            padding: 6px 12px;
+            width: 100%;
         }
 
-        /* Clear the right margin for the last form-group in each row */
-        .form-group:nth-child(2n+2) {
-            margin-right: 0;
-        }
+    </style>
 
-    .btn-primary {
-        background-color: #244b81;
-        color: #fff;
-    }
+</head>
+<body>
+    <h2 style="margin-left:85px; text-align: left; margin-bottom:100px;">Add Medicines</h2>
+    <div class="row container" style="margin-bottom:80px;">
+        <div class="col-md-8">
+            <div class="form-container">
+                <form asp-action="Index" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    .btn-secondary {
-        background-color: saddlebrown;
-        color: #fff;
-    }
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="disease_category" class="control-label"></label>
+                                <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)" style="border: 1px solid #f1f1f1;
+            border-color: black;">
+                                    <option value="">Select a category</option>
+                                </select>
+                                <span asp-validation-for="disease_category" class="text-danger"></span>
+                            </div>
+                        </div>
 
-    .mt-3 {
-        margin-top: 15px;
-    }
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ImageFile" class="control-label"></label>
+                                <!-- Use the ImageFile property for file upload -->
+                                <input asp-for="ImageFile" type="file" class="form-control" />
+                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-    .mt-4 {
-        margin-top: 20px;
-        padding-top: 5px; /* Adjust the top padding of the form container */
-        padding-bottom: 20px; /* Adjust the bottom padding of the form container */
-    }
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="medicine_name" class="control-label"></label>
+                                <input asp-for="medicine_name" class="form-control" />
+                                <span asp-validation-for="medicine_name" class="text-danger"></span>
+                            </div>
+                        </div>
 
-    .btn-lg {
-        padding: 8px 20px;
-        font-size: 18px;
-    }
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="brand_name" class="control-label"></label>
+                                <input asp-for="brand_name" class="form-control" />
+                                <span asp-validation-for="brand_name" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-    .form-container {
-        margin-top: 8px; /* Adjust the margin-top value as needed */
-        /*background-color: #F7CAC9;*/
-        /* border: 1px solid #ccc;*/
-        padding: 20px;
-        margin-left: 30px;
-        width: 95%;
-        max-width: 900px;
-        height: 394px;
-        /* overflow-y: auto; */
-        /* Add scroll if content exceeds container height */
-        position: relative; /* Add position relative for positioning the Save button */
-        border: 3px solid #f1f1f1;
-        border-color: #244b81;
-    }
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="mfd" class="control-label"></label>
+                                <input asp-for="mfd" class="form-control" type="date" />
+                                <span asp-validation-for="mfd" class="text-danger"></span>
+                            </div>
+                        </div>
 
-        /* Position the Save button at the bottom left inside the form container */
-        .form-container input[type="submit"] {
-            position: absolute;
-            bottom: 10px;
-            left: 20px;
-        }
-</style>
-<h1>Add Medicines</h1>
-<div class="row container">
-    <div class="col-md-8">
-        <div class="form-container">
-            <form asp-action="Index" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Expd" class="control-label"></label>
+                                <input asp-for="Expd" class="form-control" type="date" />
+                                <span asp-validation-for="Expd" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="disease_category" class="control-label"></label>
-                    <select asp-for="disease_category" class="form-control" asp-items="@(ViewBag.Categories)" style="border: 1px solid #f1f1f1; border-color: black;">
-                        <option value="">Select a category</option>
-                    </select>
-                    <span asp-validation-for="disease_category" class="text-danger"></span>
-                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="composition" class="control-label"></label>
+                                <input asp-for="composition" class="form-control" />
+                                <span asp-validation-for="composition" class="text-danger"></span>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label asp-for="ImageFile" class="control-label"></label>
-                    <!-- Use the ImageFile property for file upload -->
-                    <input asp-for="ImageFile" type="file" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="ImageFile" class="text-danger"></span>
-                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="formulation_type" class="control-label"></label>
+                                <input asp-for="formulation_type" class="form-control" /><br />
+                                <span asp-validation-for="formulation_type" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="medicine_name" class="control-label"></label>
-                    <input asp-for="medicine_name" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="medicine_name" class="text-danger"></span>
-                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="weight" class="control-label"></label>
+                                <input asp-for="weight" class="form-control" />
+                                <span asp-validation-for="weight" class="text-danger"></span>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label asp-for="brand_name" class="control-label"></label>
-                    <input asp-for="brand_name" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="brand_name" class="text-danger"></span>
-                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="cost" class="control-label"></label>
+                                <input asp-for="cost" class="form-control" />
+                                <span asp-validation-for="cost" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="mfd" class="control-label"></label>
-                    <input asp-for="mfd" class="form-control" type="date" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="mfd" class="text-danger"></span>
-                </div>
+                    <div class="text-left">
+                        <input type="submit" value="Save" class="btn btn-primary btn-lg mt-4 mb-0 pt-1 pb-1" />
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="Expd" class="control-label"></label>
-                    <input asp-for="Expd" class="form-control" type="date" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="Expd" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="weight" class="control-label"></label>
-                    <input asp-for="weight" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="weight" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="cost" class="control-label"></label>
-                    <input asp-for="cost" class="form-control" style="border: 1px solid #f1f1f1; border-color: black;">
-                    <span asp-validation-for="cost" class="text-danger"></span>
-                </div>
-
-                <!-- The submit button is positioned inside the form container at the bottom left -->
-                <input type="submit" value="Save" class="btn btn-primary btn-lg" onclick="showMessage()" />
-
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+
+</body>
+</html>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         <script>
-            function showMessage() {
-                var requiredFields = [
-                    "disease_category",
-                    "ImageFile",
-                    "medicine_name",
-                    "brand_name",
-                    "mfd",
-                    "Expd",
-                    "weight",
-                    "cost"
-                ];
-
-                var allFieldsFilled = true;
-
-                requiredFields.forEach(function (fieldName) {
-                    var field = document.getElementById(fieldName);
-                    if (!field.value) {
-                        allFieldsFilled = false;
-                    }
-                });
-
-                if (allFieldsFilled) {
-                    alert("Data Inserted!");
-                } else {
-                    alert("Please enter values in all the required fields.");
-                }
-            }
+            $(document).ready(function () {
+                // Remove the message overlay after a certain delay
+                setTimeout(function () {
+                    $("#messageCenter").fadeOut();
+                }, 1000); // Change the delay as needed
+            });
         </script>
+
     }
 }
+
+
+
