@@ -28,45 +28,56 @@ namespace MedicineManagement.Controllers
         }
         public IActionResult PaymentVerification(string ids)
         {
-            List<int> idList = new List<int>();
-
-            if (!string.IsNullOrEmpty(ids))
+            try
             {
-                if (ids.Contains(","))
+                List<int> idList = new List<int>();
+
+                if (!string.IsNullOrEmpty(ids))
                 {
-                    // Split the comma-separated IDs and parse them into integers
-                    idList = ids.Split(',').Select(int.Parse).ToList();
+                    if (ids.Contains(","))
+                    {
+                        // Split the comma-separated IDs and parse them into integers
+                        idList = ids.Split(',').Select(int.Parse).ToList();
+                    }
+                    else
+                    {
+                        // Parse the single ID into an integer and add to the list
+                        idList.Add(int.Parse(ids));
+                    }
                 }
-                else
+
+                // Find the medicines in the database using the list of IDs
+                var items = _cart.GetCartItems().Where(m => idList.Contains(m.Id)).ToList();
+
+                if (items.Count == 0)
                 {
-                    // Parse the single ID into an integer and add to the list
-                    idList.Add(int.Parse(ids));
+                    return NotFound();
                 }
+
+                // Generate a random string for the payment verification
+                var paymentVerification = _service.GeneratePaymentVerification();
+
+                foreach (var item in items)
+                {
+                    // Save the payment verification to the database for each item
+                    _service.AddPayment(item.Id, paymentVerification);
+                }
+
+                // Pass the payment verification and items to the view
+                ViewBag.PaymentVerification = paymentVerification;
+                var itemIdsString = string.Join(",", items.Select(item => item.Id));
+                ViewBag.ItemIdsString = itemIdsString;
+
+                return View(items);
             }
-
-            // Find the medicines in the database using the list of IDs
-            var items = _cart.GetCartItems().Where(m => idList.Contains(m.Id)).ToList();
-
-            if (items.Count == 0)
+            catch (Exception ex)
             {
-                return NotFound();
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while verifying payment: {ex.Message}");
+
+                // Return an error view
+                return View("Error");
             }
-
-            // Generate a random string for the payment verification
-            var paymentVerification = _service.GeneratePaymentVerification();
-
-            foreach (var item in items)
-            {
-                // Save the payment verification to the database for each item
-                _service.AddPayment(item.Id, paymentVerification);
-            }
-
-            // Pass the payment verification and items to the view
-            ViewBag.PaymentVerification = paymentVerification;
-            var itemIdsString = string.Join(",", items.Select(item => item.Id));
-            ViewBag.ItemIdsString = itemIdsString;
-
-            return View(items);
         }
 
 
@@ -75,47 +86,58 @@ namespace MedicineManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult VerifyPayment(string paymentVerification, string ids)
         {
-            List<int> idList = new List<int>();
-
-            if (!string.IsNullOrEmpty(ids))
+            try
             {
-                if (ids.Contains(","))
+                List<int> idList = new List<int>();
+
+                if (!string.IsNullOrEmpty(ids))
                 {
-                    // Split the comma-separated IDs and parse them into integers
-                    idList = ids.Split(',').Select(int.Parse).ToList();
+                    if (ids.Contains(","))
+                    {
+                        // Split the comma-separated IDs and parse them into integers
+                        idList = ids.Split(',').Select(int.Parse).ToList();
+                    }
+                    else
+                    {
+                        // Parse the single ID into an integer and add to the list
+                        idList.Add(int.Parse(ids));
+                    }
+                }
+
+                // Find the payment in the database
+                var payment = _context.Payments.FirstOrDefault(p => p.PaymentVerification == paymentVerification);
+
+                if (payment != null)
+                {
+                    // Payment successful
+                    _context.Payments.RemoveRange(payment);
+                    _context.SaveChanges();
+
+                    foreach (var itemId in idList)
+                    {
+                        var item = _context.AddToCart.FirstOrDefault(i => i.Id == itemId);
+                        _cart.RemoveItemFromCart(item);
+                    }
+
+                    // Pass a flag to the view to indicate payment success
+                    ViewBag.PaymentSuccess = true;
+
+                    return View("PaymentVerification");
                 }
                 else
                 {
-                    // Parse the single ID into an integer and add to the list
-                    idList.Add(int.Parse(ids));
+                    // Payment failed
+                    ViewBag.PaymentFailed = true;
+                    return View("PaymentVerification");
                 }
             }
-
-            // Find the payment in the database
-            var payment = _context.Payments.Where(p => p.PaymentVerification == paymentVerification);
-
-            if (payment != null)
+            catch (Exception ex)
             {
-                // Payment successful
-                _context.Payments.RemoveRange(payment);
-                _context.SaveChanges();
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while verifying payment: {ex.Message}");
 
-                foreach (var itemId in idList)
-                {
-                    var item = _context.AddToCart.FirstOrDefault(i => i.Id == itemId);
-                    _cart.RemoveItemFromCart(item);
-                }
-
-                // Pass a flag to the view to indicate payment success
-                ViewBag.PaymentSuccess = true;
-
-                return View("PaymentVerification");
-            }
-            else
-            {
-                ViewBag.Paymentfailed = true;
-                // Payment failed
-                return View("PaymentVerification");
+                // Return an error view
+                return View("Error");
             }
         }
 

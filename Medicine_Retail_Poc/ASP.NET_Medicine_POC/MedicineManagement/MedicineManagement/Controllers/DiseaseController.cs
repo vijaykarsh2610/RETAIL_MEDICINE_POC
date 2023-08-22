@@ -18,31 +18,52 @@ namespace MedicineManagement.Controllers
 
         public IActionResult Home()
         {
-            List<Disease> diseases = new List<Disease>();
-
-            if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
+            try
             {
-                diseases = _service.GetDiseases().Select(disease =>
-                    new Disease
-                    {
-                        Id = disease.Id,
-                        DiseaseCategory = disease.DiseaseCategory,
-                        ImagePath = disease.ImagePath
-                    }
-                ).ToList();
+                List<Disease> diseases = new List<Disease>();
+
+                if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
+                {
+                    diseases = _service.GetDiseases().Select(disease =>
+                        new Disease
+                        {
+                            Id = disease.Id,
+                            DiseaseCategory = disease.DiseaseCategory,
+                            ImagePath = disease.ImagePath
+                        }
+                    ).ToList();
+                }
+
+                return View(diseases);
             }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting diseases: {ex.Message}");
 
-
-            return View(diseases);
+                // Return an error view
+                return View("Error");
+            }
         }
 
 
         [HttpGet]
         public IActionResult Create()
         {
-            var categories = _service.GetDiseaseCategories();
-            ViewBag.Categories = new SelectList(categories);
-            return View();
+            try
+            {
+                var categories = _service.GetDiseaseCategories();
+                ViewBag.Categories = new SelectList(categories);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting disease categories: {ex.Message}");
+
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [HttpPost]

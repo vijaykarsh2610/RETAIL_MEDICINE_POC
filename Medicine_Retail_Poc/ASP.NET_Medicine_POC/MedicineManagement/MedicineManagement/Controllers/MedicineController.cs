@@ -20,23 +20,45 @@ namespace MedicineManagement.Controllers
         [HttpGet]
         public IActionResult Home(string category)
         {
-            if (string.IsNullOrEmpty(category))
+            try
             {
-                // Handle the case when no category is provided
-                return RedirectToAction("Index", "Home");
-            }
+                if (string.IsNullOrEmpty(category))
+                {
+                    // Handle the case when no category is provided
+                    return RedirectToAction("Index", "Home");
+                }
 
-            var medicinesByCategory = _service.GetMedicinesByCategory(category);
-            ViewBag.Category = category; // Set the ViewBag.Category for the view
-            return View(medicinesByCategory);
+                var medicinesByCategory = _service.GetMedicinesByCategory(category);
+                ViewBag.Category = category; // Set the ViewBag.Category for the view
+                return View(medicinesByCategory);
+            }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting medicines by category: {ex.Message}");
+
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var categories = _service.GetDiseaseCategories();
-            ViewBag.Categories = new SelectList(categories);
-            return View();
+            try
+            {
+                var categories = _service.GetDiseaseCategories();
+                ViewBag.Categories = new SelectList(categories);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting disease categories: {ex.Message}");
+
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [HttpPost]
@@ -89,15 +111,26 @@ namespace MedicineManagement.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var medicine = _service.GetMedicineById(id);
-            if (medicine == null)
+            try
             {
-                return NotFound();
-            }
+                var medicine = _service.GetMedicineById(id);
+                if (medicine == null)
+                {
+                    return NotFound();
+                }
 
-            var categories = _service.GetDiseaseCategories();
-            ViewBag.Categories = new SelectList(categories);
-            return View(medicine);
+                var categories = _service.GetDiseaseCategories();
+                ViewBag.Categories = new SelectList(categories);
+                return View(medicine);
+            }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting medicine by ID: {ex.Message}");
+
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [HttpPost]
