@@ -26,7 +26,7 @@ namespace DataAccessLayer.Repository
                 // Find the user with the given email
                 var user = await _context.Registrations.FirstOrDefaultAsync(u => u.Email == email);
 
-                Debug.WriteLine(user.FirstName);
+                //Debug.WriteLine(user.FirstName);
 
                 // If user is not found or password does not match, return null
                 if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))

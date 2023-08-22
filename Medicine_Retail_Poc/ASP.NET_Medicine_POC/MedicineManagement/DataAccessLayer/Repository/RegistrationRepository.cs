@@ -7,6 +7,7 @@ namespace DataAccessLayer.Repository
 {
     public interface IRegistrationRepository
     {
+        Task<bool> EmailExists(string email);
         Task<Registration> Create(Registration user);
         Task<Registration> Authenticate(string email, string password, bool isAdmin);
     }
@@ -15,29 +16,14 @@ namespace DataAccessLayer.Repository
     {
         private readonly ApplicationDbContext _context;
 
+        public async Task<bool> EmailExists(string email)
+        {
+            return await _context.Registrations.AnyAsync(r => r.Email == email);
+        }
         public RegistrationRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-
-        // Create a new user (registration)
-        //public async Task<Registration> Create(Registration user)
-        //{
-        //    try
-        //    {
-        //        // Hash the user's password before saving to the database
-        //        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-        //        _context.Registrations.Add(user);
-        //        await _context.SaveChangesAsync();
-        //        return user;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Handle any exceptions that may occur during user creation
-
-        //        throw; // Re-throw the exception to be handled at the higher level
-        //    }
-        //}
 
         public async Task<Registration> Create(Registration user)
         {

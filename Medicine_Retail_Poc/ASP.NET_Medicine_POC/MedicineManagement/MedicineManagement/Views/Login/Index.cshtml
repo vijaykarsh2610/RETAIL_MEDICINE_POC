@@ -1,8 +1,28 @@
 ﻿@model DataAccessLayer.Domain.Login
 
+
+<!-- Display alert message -->
+@if (TempData["LoginMessage"] != null && !(bool)TempData["IsAdmin"])
+{
+    <div class="alert alert-danger">
+        @TempData["LoginMessage"]
+    </div>
+}
+
+<div id="messageCenter">
+    @if (ViewData["RegistrationSuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @ViewData["RegistrationSuccessMessage"]
+        </div>
+    }
+</div>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +43,8 @@
 
         input[type=text], input[type=password] {
             width: 100%;
-            padding: 8px 20px; /* Adjust the padding values */
-            margin: 4px 0; /* Adjust the margin values */
+            padding: 8px 20px;
+            margin: 4px 0;
             display: inline-block;
             /*border: 1px solid #ccc;*/
             box-sizing: border-box;
@@ -35,7 +55,7 @@
         button {
             background-color: #244b81;
             color: white;
-            padding: 10px 20px; /* Change this line */
+            padding: 10px 20px;
             margin: 8px 0;
             border: none;
             cursor: pointer;
@@ -45,7 +65,7 @@
 
 
         .container {
-            
+            padding: 16px;
         }
 
         .msg {
@@ -58,12 +78,12 @@
         }
 
         h1 {
-            text-align: center; /* Center the heading */
+            text-align: center;
         }
     </style>
 
 </head>
-<body>
+<body style="margin-bottom:80px;">
     <h1>Login</h1>
     <form asp-action="Index" method="post">
 
@@ -82,7 +102,8 @@
 
             <div style="display: inline-block;">
                 <div>
-                    <button type="submit" onclick="showMessageAndRedirect('@Url.Action("Create", "Disease")', '@Url.Action("Index", "Home")')">Login</button>
+                    @* <button type="submit" onclick="showMessageAndRedirect('@Url.Action("Create", "Disease")', '@Url.Action("Index", "Home")')">Login</button>*@
+                    <button type="submit">Login</button>
                 </div>
 
             </div>
@@ -96,25 +117,20 @@
     </form>
 </body>
 </html>
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        function showMessageAndRedirect(urlAdmin, urlUser) {
-            var url = userIsAdmin ? urlAdmin : urlUser;
-
-            if (url === null) {
-                alert("Invalid email or password.");
-            } else {
-                alert("Login Successful!");
-
-                setTimeout(function () {
-                    window.location.href = url;
-                }, 2000); // 2000 milliseconds (2 seconds) delay before redirection
-            }
-        }
+        $(document).ready(function () {
+            // Remove the message overlay after a certain delay
+            setTimeout(function () {
+                $("#messageCenter").fadeOut();
+            }, 1000); // Change the delay as needed
+        });
     </script>
-    }
+}
+
+
 
 

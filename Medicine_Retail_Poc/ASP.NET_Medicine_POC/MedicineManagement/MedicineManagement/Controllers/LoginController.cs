@@ -2,9 +2,9 @@
 using DataAccessLayer.Domain;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.Diagnostics;
 
 namespace MedicineManagement.Controllers
@@ -22,6 +22,14 @@ namespace MedicineManagement.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+
+            if (TempData["RegistrationSuccess"] != null)
+            {
+                ViewData["RegistrationSuccessMessage"] = "Registration Successful! You can now log in.";
+                // Remove the registration success TempData to prevent it from being displayed again
+                TempData.Remove("RegistrationSuccess");
+            }
+
             // GET request for the login page
             return View();
         }
@@ -34,11 +42,6 @@ namespace MedicineManagement.Controllers
                 if (!ModelState.IsValid)
                 {
                     // If the model state is not valid, return the view with the current model
-                    var errors = ModelState.Values.SelectMany(v => v.Errors);
-                    foreach (var error in errors)
-                    {
-                        Debug.WriteLine(error.ErrorMessage);
-                    }
                     return View(model);
                 }
 
@@ -49,7 +52,9 @@ namespace MedicineManagement.Controllers
                 {
                     // If authentication fails, add a model error and return the view with the current model
                     ModelState.AddModelError("Email", "Invalid email or password");
-                    return View(model) ;
+                    TempData["LoginMessage"] = "Invalid email or password.";
+                    TempData["IsAdmin"] = false; // Set IsAdmin to false for invalid login
+                    return View(model);
                 }
 
                 var claims = new List<Claim>
@@ -63,13 +68,22 @@ namespace MedicineManagement.Controllers
 
                 if (user.IsAdmin)
                 {
+                    TempData["LoginMessage"] = "Login Successful!";
+                    TempData["IsAdmin"] = true;
                     // If the user is an admin, redirect to the home page for admins
                     return RedirectToAction("Create", "Disease");
                 }
                 else
                 {
-                    // If the user is not an admin, redirect to the privacy page for regular users
+                    //TempData["LoginMessage"] = "Login Successful!";
+                    //TempData["IsAdmin"] = false;
+                    //return View(model);
+
+                    // If the user is not an admin, redirect to the home page for regular users
+
                     return RedirectToAction("Index", "Home");
+
+
                 }
             }
             catch (Exception ex)
@@ -77,8 +91,11 @@ namespace MedicineManagement.Controllers
                 // Handle any exceptions that may occur during the login process
                 // You can log the error or perform any other actions here
                 // For now, simply return the view with the current model
+                TempData["LoginMessage"] = "An error occurred.";
+                TempData["IsAdmin"] = false; // Set IsAdmin to false for error case
                 return View(model);
             }
         }
+
     }
 }

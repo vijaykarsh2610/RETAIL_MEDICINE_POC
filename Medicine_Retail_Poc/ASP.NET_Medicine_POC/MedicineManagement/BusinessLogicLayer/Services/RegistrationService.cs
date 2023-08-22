@@ -1,16 +1,30 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.Services
 {
     public interface IRegistrationService
     {
+        Task<bool> EmailExists(string email);
         Task<Registration> Create(Registration user);
     }
 
     public class RegistrationService : IRegistrationService
     {
         private readonly IRegistrationRepository _repository;
+
+        public async Task<bool> EmailExists(string email)
+        {
+            try
+            {
+                return await _repository.EmailExists(email);
+            } 
+            catch(Exception ex) { 
+                throw;
+            }
+
+        }
 
         public RegistrationService(IRegistrationRepository repository)
         {
