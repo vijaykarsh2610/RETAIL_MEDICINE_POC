@@ -26,12 +26,28 @@ namespace MedicineManagement.Controllers
             _context = dbContext;
             _cart = cartService;
         }
-        public IActionResult PaymentVerification(int id)
+        public IActionResult PaymentVerification(string ids)
         {
-            // Find the medicine in the database
-            var item = _cart.GetCartItems().FirstOrDefault(m => m.Id == id);
+            List<int> idList = new List<int>();
 
-            if (item == null)
+            if (!string.IsNullOrEmpty(ids))
+            {
+                if (ids.Contains(","))
+                {
+                    // Split the comma-separated IDs and parse them into integers
+                    idList = ids.Split(',').Select(int.Parse).ToList();
+                }
+                else
+                {
+                    // Parse the single ID into an integer and add to the list
+                    idList.Add(int.Parse(ids));
+                }
+            }
+
+            // Find the medicines in the database using the list of IDs
+            var items = _cart.GetCartItems().Where(m => idList.Contains(m.Id)).ToList();
+
+            if (items.Count == 0)
             {
                 return NotFound();
             }
@@ -39,30 +55,56 @@ namespace MedicineManagement.Controllers
             // Generate a random string for the payment verification
             var paymentVerification = _service.GeneratePaymentVerification();
 
-            // Save the payment verification to the database
-            _service.AddPayment(item.Id, paymentVerification);
+            foreach (var item in items)
+            {
+                // Save the payment verification to the database for each item
+                _service.AddPayment(item.Id, paymentVerification);
+            }
 
-            // Pass the payment verification to the view
+            // Pass the payment verification and items to the view
             ViewBag.PaymentVerification = paymentVerification;
-            ViewBag.ItemId = item.Id;
+            var itemIdsString = string.Join(",", items.Select(item => item.Id));
+            ViewBag.ItemIdsString = itemIdsString;
 
-            return View(item);
+            return View(items);
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult VerifyPayment(string paymentVerification,int id)
+        public IActionResult VerifyPayment(string paymentVerification, string ids)
         {
+            List<int> idList = new List<int>();
+
+            if (!string.IsNullOrEmpty(ids))
+            {
+                if (ids.Contains(","))
+                {
+                    // Split the comma-separated IDs and parse them into integers
+                    idList = ids.Split(',').Select(int.Parse).ToList();
+                }
+                else
+                {
+                    // Parse the single ID into an integer and add to the list
+                    idList.Add(int.Parse(ids));
+                }
+            }
+
             // Find the payment in the database
-            var payment = _context.Payments.FirstOrDefault(p => p.PaymentVerification == paymentVerification);
+            var payment = _context.Payments.Where(p => p.PaymentVerification == paymentVerification);
 
             if (payment != null)
             {
                 // Payment successful
-                _context.Payments.Remove(payment);
+                _context.Payments.RemoveRange(payment);
                 _context.SaveChanges();
-                var item = _context.AddToCart.FirstOrDefault(i => i.Id == id);
-                _cart.RemoveItemFromCart(item);
+
+                foreach (var itemId in idList)
+                {
+                    var item = _context.AddToCart.FirstOrDefault(i => i.Id == itemId);
+                    _cart.RemoveItemFromCart(item);
+                }
 
                 // Pass a flag to the view to indicate payment success
                 ViewBag.PaymentSuccess = true;
@@ -76,5 +118,6 @@ namespace MedicineManagement.Controllers
                 return View("PaymentVerification");
             }
         }
+
     }
 }
