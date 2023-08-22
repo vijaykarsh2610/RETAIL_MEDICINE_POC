@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.Services;
 using DataAccessLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicineManagement.Controllers
 {
@@ -25,24 +26,40 @@ namespace MedicineManagement.Controllers
         {
             try
             {
-                // Check if the model is valid based on the data annotations in the Registration class
                 if (!ModelState.IsValid)
                 {
+                    TempData["RegistrationMessage"] = "Please enter valid values.";
                     return View(model);
                 }
 
-                // Call the Create method of the registration service to create a new user
+                if( await _service.EmailExists(model.Email))
+                {
+                    TempData["RegistrationMessage"] = "Email already exists";
+                    return View(model);
+                }
+
+
                 var user = await _service.Create(model);
 
-                // Redirect to the login page after successful user creation
+                if (user != null)
+                {
+                    TempData["RegistrationSuccess"] = true;
+                }
+                else
+                {
+                    TempData["RegistrationMessage"] = "An error occurred during registration.";
+                }
+
                 return RedirectToAction("Index", "Login");
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur during user creation
-               
-                return View(model); // Return the view with the model if an error occurs
+                // Handle exceptions
+
+                TempData["RegistrationMessage"] = "An error occurred.";
+                return View(model);
             }
         }
+
     }
 }

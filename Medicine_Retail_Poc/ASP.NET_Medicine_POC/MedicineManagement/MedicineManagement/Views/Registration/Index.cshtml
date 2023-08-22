@@ -1,5 +1,25 @@
 ﻿@model DataAccessLayer.Domain.Registration
 
+
+<!-- Display registration success message -->
+@*@if (TempData["RegistrationSuccess"] != null)
+{
+    <div class="alert alert-success">
+        Registration Successful! You can now log in.
+    </div>
+}
+
+*@
+<!-- Display registration error message -->
+@if (TempData["RegistrationMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["RegistrationMessage"]
+    </div>
+}
+
+<!-- Your HTML form here -->
+
 <h2 class="text-center">Registration</h2>
 @*
 <link href="/css/bootstrap.min.css" rel="stylesheet" />*@
@@ -52,7 +72,7 @@
                 </div>
 
                 <div class="form-group" style="margin-top: 8px;">
-                    <button type="submit" style="background-color: #244b81; color: white; height:40px;" onclick="showMessage()">Register</button><br />
+                    <button type="submit" id="registerButton" style="background-color: #244b81; color: white; height:40px;">Register</button><br />
                 </div>
             </form>
         </div>
@@ -62,24 +82,8 @@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
-    <script>
-        function showMessage() {
-            var firstName = document.getElementById("FirstName").value;
-            var lastName = document.getElementById("LastName").value;
-            var email = document.getElementById("Email").value;
-            var password = document.getElementById("Password").value;
-            var confirmPassword = document.getElementById("ConfirmPassword").value;
-
-            if (firstName === "" || lastName === "" || email === "" || password === "" || confirmPassword === "") {
-                alert("Please enter values in all the fields.");
-            } else {
-                alert("Registration Successful!");
-            }
-        }
-    </script>
-
-
 }
+
 
 <style>
     label strong {
