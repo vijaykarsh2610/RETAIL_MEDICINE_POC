@@ -34,14 +34,26 @@ else
                         <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
                             <input type="hidden" name="id" value="@item.Id" />
                             <button type="submit" class="btn btn-danger">Remove</button>
-                            <a href="@Url.Action("PaymentVerification", "Payment", new { id = item.Id})" class="btn btn-primary">Buy Now</a>
+                            <a href="@Url.Action("PaymentVerification", "Payment", new { ids = item.Id.ToString()})" class="btn btn-primary">Buy Now</a>
                         </form>
                     </td>
+
                 </tr>
             }
         </tbody>
     </table>
-    <form asp-action="ClearCart" asp-controller="Cart" method="post">
-        <button type="submit" class="btn btn-danger">Clear Cart</button>
-    </form>
+    <div style="display:flex">
+        <form asp-action="ClearCart" asp-controller="Cart" method="post">
+            <button type="submit" class="btn btn-danger">Clear Cart</button>
+        </form>
+        <div style="margin-left: auto; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+            <p style="margin-right: 10px;">Total cost: @ViewBag.TotalSum</p>
+            </div>
+            <div>
+            <a href="@Url.Action("PaymentVerification", "Payment", new { ids = string.Join(",", ViewBag.CartItemIds) })" class="btn btn-primary">Checkout</a>
+            </div>
+        </div>
+    </div>
+
 }

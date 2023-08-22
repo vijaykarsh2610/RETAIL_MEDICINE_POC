@@ -23,6 +23,9 @@ namespace MedicineManagement.Controllers
         {
             var items = _cart.GetCartItems();
             var cartItems = new List<AddToCart>();
+            float totalSum = 0; // Initialize the total sum to zero
+            var cartItemIds = new List<int>(); // List to store cart item ids
+
             foreach (var item in items)
             {
                 var cartItem = new AddToCart
@@ -37,9 +40,17 @@ namespace MedicineManagement.Controllers
                     MedicineId = item.MedicineId
                 };
                 cartItems.Add(cartItem);
+
+                totalSum += item.TotalCost; // Accumulate the total sum
+                cartItemIds.Add(item.Id); // Add cart item id to the list
             }
+
+            ViewBag.TotalSum = totalSum; // Pass the total sum to the view
+            ViewBag.CartItemIds = cartItemIds; // Pass the list of cart item ids to the view
             return View(cartItems);
         }
+
+
 
 
         [HttpPost]
