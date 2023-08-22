@@ -21,61 +21,99 @@ namespace MedicineManagement.Controllers
 
         public IActionResult Index()
         {
-            List<Disease> diseases = new List<Disease>();
-
-            if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
+            try
             {
-                diseases = _service.GetDiseases().Select(disease =>
-                    new Disease
-                    {
-                        Id = disease.Id,
-                        DiseaseCategory = disease.DiseaseCategory,
-                        ImagePath = disease.ImagePath
-                    }
-                ).ToList();
+                List<Disease> diseases = new List<Disease>();
+
+                if (_service != null && _service.GetDiseases() != null && _service.GetDiseases().Count() > 0)
+                {
+                    diseases = _service.GetDiseases().Select(disease =>
+                        new Disease
+                        {
+                            Id = disease.Id,
+                            DiseaseCategory = disease.DiseaseCategory,
+                            ImagePath = disease.ImagePath
+                        }
+                    ).ToList();
+                }
+
+                return View(diseases);
             }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting diseases: {ex.Message}");
 
-
-            return View(diseases);
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [HttpGet]
         public IActionResult MedicineDetails(string category)
         {
-            if (string.IsNullOrEmpty(category))
+            try
             {
-                // Handle the case when no category is provided
-                return RedirectToAction("Index", "Home");
-            }
+                if (string.IsNullOrEmpty(category))
+                {
+                    // Handle the case when no category is provided
+                    return RedirectToAction("Index", "Home");
+                }
 
-            var medicinesByCategory = _medicineservice.GetMedicinesByCategory(category);
-            ViewBag.Category = category; // Set the ViewBag.Category for the view
-            return View(medicinesByCategory);
+                var medicinesByCategory = _medicineservice.GetMedicinesByCategory(category);
+                ViewBag.Category = category; // Set the ViewBag.Category for the view
+                return View(medicinesByCategory);
+            }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting medicines by category: {ex.Message}");
+
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [HttpGet]
         public IActionResult MedicineDisplay(int medicineId)
         {
-            var selectedMedicine = _medicineservice.GetMedicineById(medicineId);
-
-            if (selectedMedicine == null)
+            try
             {
-                // Handle the case when the medicine is not found
-                return NotFound();
+                var selectedMedicine = _medicineservice.GetMedicineById(medicineId);
+
+                if (selectedMedicine == null)
+                {
+                    // Handle the case when the medicine is not found
+                    return NotFound();
+                }
+
+                return View(selectedMedicine); // Return the view with selected medicine details
             }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while getting medicine by ID: {ex.Message}");
 
-            return View(selectedMedicine); // Return the view with selected medicine details
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+                // Return an error view
+                return View("Error");
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            try
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+            catch (Exception ex)
+            {
+                // Print the error message to the console
+                Console.WriteLine($"An error occurred while displaying the error view: {ex.Message}");
+
+                // Return a plain text error message to the user
+                return Content("An error occurred while displaying the error view. Please try again later.");
+            }
         }
     }
 }

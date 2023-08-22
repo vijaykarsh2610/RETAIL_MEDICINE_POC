@@ -1,4 +1,4 @@
-﻿using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
