@@ -16,7 +16,7 @@ namespace DataAccessLayer.Domain
 
         [Required(ErrorMessage = "Brand name is required")]
         [StringLength(30, ErrorMessage = "Brand name must be between 5 and 30 characters long.")]
-        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Brand name must contain only letters.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Brand name must contain only letters.")]
         public string? brand_name { get; set; }
 
         [Required(ErrorMessage = "Disease category is required")]
@@ -39,12 +39,12 @@ namespace DataAccessLayer.Domain
 
         [Required(ErrorMessage = "Composition is required")]
         [StringLength(30, MinimumLength = 5, ErrorMessage = "Composition must be between 5 and 30 characters long.")]
-        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Composition must contain only letters.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Composition must contain only letters.")]
         public string? composition { get; set; }
 
         [Required(ErrorMessage = "Formulation type is required")]
         [StringLength(30, MinimumLength = 5, ErrorMessage = "Formulation type be between 5 and 30 characters long.")]
-        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Formulation type must contain only letters.")]
+        [RegularExpression(@"^[a-zA-Z ]*$", ErrorMessage = "Formulation type must contain only letters.")]
         public string? formulation_type { get; set; }
 
         [NotMapped]
