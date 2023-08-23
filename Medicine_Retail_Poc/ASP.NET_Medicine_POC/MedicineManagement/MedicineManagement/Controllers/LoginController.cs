@@ -28,6 +28,7 @@ namespace MedicineManagement.Controllers
                 ViewData["RegistrationSuccessMessage"] = "Registration Successful! You can now log in.";
                 // Remove the registration success TempData to prevent it from being displayed again
                 TempData.Remove("RegistrationSuccess");
+
             }
 
             // GET request for the login page
