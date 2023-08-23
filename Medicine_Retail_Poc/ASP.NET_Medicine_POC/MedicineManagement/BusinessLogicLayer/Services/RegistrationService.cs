@@ -21,6 +21,7 @@ namespace BusinessLogicLayer.Services
                 return await _repository.EmailExists(email);
             } 
             catch(Exception ex) { 
+
                 throw;
             }
 
