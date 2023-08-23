@@ -46,9 +46,9 @@ else
         <form asp-action="ClearCart" asp-controller="Cart" method="post">
             <button type="submit" class="btn btn-danger">Clear Cart</button>
         </form>
-        <div style="margin-left: auto; display: flex; align-items: center; justify-content: space-between;">
+        <div style="margin-left: auto; display: flex; align-items: center; justify-content: space-between;margin-right:80px;">
             <div>
-            <p style="margin-right: 10px;">Total cost: @ViewBag.TotalSum</p>
+            <p style="margin-right: 10px; margin-bottom:0px;">Total cost: @ViewBag.TotalSum</p>
             </div>
             <div>
             <a href="@Url.Action("PaymentVerification", "Payment", new { ids = string.Join(",", ViewBag.CartItemIds) })" class="btn btn-primary">Checkout</a>
