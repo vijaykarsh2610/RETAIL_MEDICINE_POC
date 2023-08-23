@@ -32,13 +32,6 @@ namespace DataAccessLayer.Repository
                 throw new ArgumentNullException(nameof(user));
             }
 
-            // Check if the email already exists in the database
-            var existingUser = await _context.Registrations.FirstOrDefaultAsync(u => u.Email == user.Email);
-            if (existingUser != null)
-            {
-                throw new DbUpdateException("Email already exists");
-            }
-
             try
             {
                 // Hash the user's password before saving to the database
