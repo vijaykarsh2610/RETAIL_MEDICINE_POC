@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
+using Microsoft.Extensions.Logging;
 
 namespace BusinessLogicLayer.Services
 {
@@ -7,9 +8,11 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IDiseaseRepository _repository;
 
-        public DiseaseService(IDiseaseRepository repository)
+        private readonly ILogger<DiseaseRepository> _logger;
+        public DiseaseService(IDiseaseRepository repository, ILogger<DiseaseRepository> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public IEnumerable<Disease> GetDiseases()
@@ -21,6 +24,7 @@ namespace BusinessLogicLayer.Services
             catch (Exception ex)
             {
                 // Log or handle the exception as required
+                _logger.LogError($"Error fetching all diseases: {ex.Message}");
                 throw new Exception("An error occurred while fetching diseases from the database.", ex);
             }
         }
@@ -48,6 +52,7 @@ namespace BusinessLogicLayer.Services
             catch (Exception ex)
             {
                 // Log or handle the exception as required
+                _logger.LogError($"Error adding disease: {ex.Message}");
                 // In a production application, you might want to log the error or notify developers/admins
                 throw new Exception("An error occurred while adding the disease to the database.", ex);
             }

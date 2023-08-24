@@ -12,11 +12,13 @@ namespace MedicineManagement.Controllers
     public class LoginController : Controller
     {
         private readonly ILoginService _service;
+        private readonly ILogger<CartController> _logger;
 
         // controller constructor
-        public LoginController(ILoginService service)
+        public LoginController(ILoginService service, ILogger<CartController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -92,6 +94,7 @@ namespace MedicineManagement.Controllers
                 // Handle any exceptions that may occur during the login process
                 // You can log the error or perform any other actions here
                 // For now, simply return the view with the current model
+                _logger.LogError(ex, "Error occurred during login");
                 TempData["LoginMessage"] = "An error occurred.";
                 TempData["IsAdmin"] = false; // Set IsAdmin to false for error case
                 return View(model);

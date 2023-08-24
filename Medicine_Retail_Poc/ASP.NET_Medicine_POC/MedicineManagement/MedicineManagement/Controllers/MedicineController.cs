@@ -13,10 +13,13 @@ namespace MedicineManagement.Controllers
 
         private readonly IWebHostEnvironment _environment;
 
-        public MedicineController(IMedicineService service, IWebHostEnvironment environment)
+        private readonly ILogger<MedicineController> _logger;
+
+        public MedicineController(IMedicineService service, IWebHostEnvironment environment, ILogger<MedicineController> logger)
         {
             _service = service;
             _environment = environment;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -38,7 +41,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while getting medicines by category: {ex.Message}");
-
+                _logger.LogError($"An error occurred while getting medicines by category: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -57,7 +60,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while getting disease categories: {ex.Message}");
-
+                _logger.LogError($"An error occurred while getting disease categories: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -112,7 +115,7 @@ namespace MedicineManagement.Controllers
             catch (Exception ex)
             {
                 // Handle the exception as required
-
+                _logger.LogError($"An error occurred while adding medicine: {ex.Message}");
                 TempData["MedicineMessage"] = "An error occurred while processing the request. Please try again later.";
                 return RedirectToAction("Index", "Medicine");
             }
@@ -140,7 +143,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while getting medicine by ID: {ex.Message}");
-
+                _logger.LogError($"An error occurred while getting medicine by ID: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -184,6 +187,7 @@ namespace MedicineManagement.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "An error occurred while processing the request. Please try again later.");
+                _logger.LogError($"An error occurred while updating medicine: {ex.Message}");
                 var categories = _service.GetDiseaseCategories();
                 ViewBag.Categories = new SelectList(categories);
                 TempData["MedicineMessage"] = "An error occurred while processing the request. Please try again later.";
@@ -209,6 +213,7 @@ namespace MedicineManagement.Controllers
             {
                 // Log or handle the exception as required
                 // In a production application, you might want to log the error or show an error page
+                _logger.LogError($"An error occurred while deleting medicine: {ex.Message}");
                 ModelState.AddModelError("", "An error occurred while processing the request. Please try again later.");
                 return View();
             }

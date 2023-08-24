@@ -8,11 +8,13 @@ namespace MedicineManagement.Controllers
     public class RegistrationController : Controller
     {
         private readonly IRegistrationService _service;
+        private readonly ILogger<RegistrationController> _logger;
 
         //Constructor
-        public RegistrationController(IRegistrationService service)
+        public RegistrationController(IRegistrationService service, ILogger<RegistrationController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -55,7 +57,7 @@ namespace MedicineManagement.Controllers
             catch (Exception ex)
             {
                 // Handle exceptions
-
+                _logger.LogError($"An error occurred while registering user: {ex.Message}");
                 TempData["RegistrationMessage"] = "An error occurred.";
                 return View(model);
             }

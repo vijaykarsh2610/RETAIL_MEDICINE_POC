@@ -2,6 +2,7 @@
 using DataAccessLayer.Domain;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DataAccessLayer.Repository
 {
@@ -16,13 +17,15 @@ namespace DataAccessLayer.Repository
     {
         private readonly ApplicationDbContext _context;
 
+        private readonly ILogger<RegistrationRepository> _logger;
         public async Task<bool> EmailExists(string email)
         {
             return await _context.Registrations.AnyAsync(r => r.Email == email);
         }
-        public RegistrationRepository(ApplicationDbContext context)
+        public RegistrationRepository(ApplicationDbContext context,ILogger<RegistrationRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<Registration> Create(Registration user)
@@ -43,6 +46,7 @@ namespace DataAccessLayer.Repository
             catch (DbUpdateException ex)
             {
                 // Handle any other exceptions that may occur during user creation
+                _logger.LogError($"Error creating user: {ex.Message}");
                 throw new Exception("Failed to create user.", ex);
             }
         }
@@ -70,7 +74,7 @@ namespace DataAccessLayer.Repository
             catch (Exception ex)
             {
                 // Handle any exceptions that may occur during user authentication
-                
+                _logger.LogError($"Error authenticating user: {ex.Message}");
                 throw; // Re-throw the exception to be handled at the higher level
             }
         }

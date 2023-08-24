@@ -8,15 +8,14 @@ namespace MedicineManagement.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IDiseaseService _service;
         private readonly IMedicineService _medicineservice;
-
-        public HomeController(ILogger<HomeController> logger, IDiseaseService service = null, IMedicineService medicineservice = null)
+        private readonly ILogger<HomeController> _logger;
+        public HomeController(ILogger<HomeController> logger,IDiseaseService service = null, IMedicineService medicineservice = null)
         {
-            _logger = logger;
             _service = service;
             _medicineservice = medicineservice;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -43,7 +42,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while getting diseases: {ex.Message}");
-
+                _logger.LogError($"An error occurred while getting diseases: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -68,7 +67,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while getting medicines by category: {ex.Message}");
-
+                _logger.LogError($"An error occurred while getting medicines by category: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -93,7 +92,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while getting medicine by ID: {ex.Message}");
-
+                _logger.LogError($"An error occurred while getting medicine by ID: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -110,7 +109,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while displaying the error view: {ex.Message}");
-
+                _logger.LogError($"An error occurred while displaying the error view: {ex.Message}");
                 // Return a plain text error message to the user
                 return Content("An error occurred while displaying the error view. Please try again later.");
             }

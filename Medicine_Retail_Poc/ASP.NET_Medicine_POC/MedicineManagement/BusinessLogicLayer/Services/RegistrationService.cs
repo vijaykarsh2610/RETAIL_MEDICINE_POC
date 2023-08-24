@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BusinessLogicLayer.Services
 {
@@ -13,7 +14,7 @@ namespace BusinessLogicLayer.Services
     public class RegistrationService : IRegistrationService
     {
         private readonly IRegistrationRepository _repository;
-
+        private readonly ILogger<RegistrationService> _logger;
         public async Task<bool> EmailExists(string email)
         {
             try
@@ -27,9 +28,10 @@ namespace BusinessLogicLayer.Services
 
         }
 
-        public RegistrationService(IRegistrationRepository repository)
+        public RegistrationService(IRegistrationRepository repository, ILogger<RegistrationService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         // Create a new user (registration) using the repository
@@ -43,7 +45,7 @@ namespace BusinessLogicLayer.Services
             catch (Exception ex)
             {
                 // Handle any exceptions that may occur during user creation
-               
+               _logger.LogError("Error occurred during user creation: " + ex.Message);
                 throw; // Re-throw the exception to be handled at the higher level
             }
         }

@@ -18,13 +18,16 @@ namespace MedicineManagement.Controllers
 
         private readonly ICartService _cart;
 
-        public PaymentController(IPaymentService service,IMedicineService medicineService, IWebHostEnvironment environment,ApplicationDbContext dbContext,ICartService cartService)
+        private readonly ILogger<PaymentController> _logger;
+
+        public PaymentController(IPaymentService service,IMedicineService medicineService, IWebHostEnvironment environment,ApplicationDbContext dbContext,ICartService cartService,ILogger<PaymentController> logger)
         {
             _service = service;
             _environment = environment;
             _medicineService = medicineService;
             _context = dbContext;
             _cart = cartService;
+            _logger = logger;
         }
         public IActionResult PaymentVerification(string ids)
         {
@@ -74,7 +77,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while verifying payment: {ex.Message}");
-
+                _logger.LogError($"An error occurred while verifying payment: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -135,7 +138,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while verifying payment: {ex.Message}");
-
+                _logger.LogError($"An error occurred while verifying payment: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }

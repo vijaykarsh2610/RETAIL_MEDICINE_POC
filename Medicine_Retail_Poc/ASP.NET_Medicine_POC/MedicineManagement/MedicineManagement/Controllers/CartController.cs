@@ -9,10 +9,13 @@ namespace MedicineManagement.Controllers
         private readonly IMedicineService _service;
         private readonly ICartService _cart;
 
-        public CartController(IMedicineService service, ICartService cart)
+        private readonly ILogger<CartController> _logger;
+
+        public CartController(IMedicineService service, ICartService cart,ILogger<CartController> logger)
         {
             _service = service;
             _cart = cart;
+            _logger = logger;
         }
 
         // ...
@@ -49,13 +52,14 @@ namespace MedicineManagement.Controllers
 
                 ViewBag.TotalSum = totalSum; // Pass the total sum to the view
                 ViewBag.CartItemIds = cartItemIds; // Pass the list of cart item ids to the view
+                _logger.LogInformation("Cart items are displayed");
                 return View(cartItems);
             }
             catch (Exception ex)
             {
                 // Log the exception
                 Console.WriteLine("An error occurred while getting cart items");
-
+                _logger.LogError($"An error occurred while getting cart items: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -83,7 +87,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while adding item to cart: {ex.Message}");
-
+                _logger.LogError($"An error occurred while adding item to cart: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -108,7 +112,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while removing item from cart: {ex.Message}");
-
+                _logger.LogError($"An error occurred while removing item from cart: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }
@@ -127,7 +131,7 @@ namespace MedicineManagement.Controllers
             {
                 // Print the error message to the console
                 Console.WriteLine($"An error occurred while clearing the cart: {ex.Message}");
-
+                _logger.LogError($"An error occurred while clearing the cart: {ex.Message}");
                 // Return an error view
                 return View("Error");
             }

@@ -1,17 +1,19 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
-
+using Microsoft.Extensions.Logging;
 
 namespace BusinessLogicLayer.Services
 {
     public class MedicineService : IMedicineService
     {
         private readonly IMedicineRepository _repository;
+        private readonly ILogger<MedicineService> _logger;
         // add methods to add,update,delete,search medicines
 
-        public MedicineService(IMedicineRepository repository)
+        public MedicineService(IMedicineRepository repository, ILogger<MedicineService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
         public void AddMedicine(Medicine medicine)
         {
@@ -23,6 +25,7 @@ namespace BusinessLogicLayer.Services
             catch (Exception ex)
             {
                 // Log or handle the exception as required
+                _logger.LogError($"Error adding medicine: {ex.Message}");
                 // In a production application, you might want to log the error or notify developers/admins
                 throw new Exception("An error occurred while adding the medicine to the database.", ex);
             }
@@ -53,6 +56,7 @@ namespace BusinessLogicLayer.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error updating medicine: {ex.Message}");
                 throw new Exception("An error occurred while updating the medicine in the database.", ex);
             }
         }
@@ -66,6 +70,7 @@ namespace BusinessLogicLayer.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error deleting medicine: {ex.Message}");
                 throw new Exception("An error occurred while deleting the medicine from the database.", ex);
             }
         }
