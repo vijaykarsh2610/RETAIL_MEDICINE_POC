@@ -1,0 +1,18 @@
+﻿.custom-table {
+    border: 2px solid black;
+}
+
+    .custom-table th {
+        border: 1px solid black;
+        font-weight: bold;
+        background-color: lightblue;
+    }
+
+    .custom-table td {
+        border: 1px solid black;
+    }
+
+    /* Change row background on hover */
+    .custom-table tbody tr:hover {
+        background-color: #FFFFE0;
+    }

@@ -23,6 +23,7 @@
 <h2 class="text-center">Registration</h2>
 @*
 <link href="/css/bootstrap.min.css" rel="stylesheet" />*@
+<link rel="stylesheet" href="~/css/registration.css">
 @Html.ValidationSummary()
 
 <div class="container">
@@ -83,20 +84,3 @@
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
 }
-
-
-<style>
-    label strong {
-        font-weight: bold;
-    }
-
-    input[type=text], input[type=password] {
-        width: 100%;
-        padding: 5px 20px;
-        margin: 4px 0;
-        display: inline-block;
-        box-sizing: border-box;
-        border: 1px solid #f1f1f1;
-        border-color: black;
-    }
-</style>
