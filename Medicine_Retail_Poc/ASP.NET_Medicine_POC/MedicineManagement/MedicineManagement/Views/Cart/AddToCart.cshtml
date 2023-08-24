@@ -23,21 +23,23 @@ else
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr data-id="@item.Id">
                     <td>@item.MedicineName</td>
                     <td>@item.BrandName</td>
                     <td>@item.Category</td>
-                    <td>@item.Quantity</td>
+                    <td>
+                        <input type="number" name="quantity" value="@item.Quantity" min="1" max="100" class="quantity-input" data-price="@item.TotalCost" data-id="@item.Id" />
+                    </td>
                     <td>@item.Weight</td>
-                    <td>@item.TotalCost</td>
+                    <td class="price">@item.TotalCost</td>
+                   @* <p>Total cost: <span id="totalCost">0.00</span></p>*@
+
                     <td>
                         <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
                             <input type="hidden" name="id" value="@item.Id" />
                             <button type="submit" class="btn btn-danger">Remove</button>
-                            <a href="@Url.Action("PaymentVerification", "Payment", new { ids = item.Id.ToString()})" class="btn btn-primary">Buy Now</a>
                         </form>
                     </td>
-
                 </tr>
             }
         </tbody>
@@ -48,12 +50,62 @@ else
         </form>
         <div style="margin-left: auto; display: flex; align-items: center; justify-content: space-between;margin-right:80px;">
             <div>
-            <p style="margin-right: 10px; margin-bottom:0px;">Total cost: @ViewBag.TotalSum</p>
+             @*   <p style="margin-right: 10px; margin-bottom:0px;">Total cost: @ViewBag.TotalSum</p>*@
+                <p style="margin-right: 10px; margin-bottom:0px;">Total cost: <span id="totalSum">0.00</span></p>
+
             </div>
             <div>
-            <a href="@Url.Action("PaymentVerification", "Payment", new { ids = string.Join(",", ViewBag.CartItemIds) })" class="btn btn-primary">Checkout</a>
+                <a href="@Url.Action("PaymentVerification", "Payment", new { ids = string.Join(",", ViewBag.CartItemIds) })" class="btn btn-primary">Checkout</a>
             </div>
         </div>
     </div>
-
 }
+
+
+<!-- Your Razor view code -->
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initial calculation
+        updateTotalCost();
+
+        $(".quantity-input").on("input", function () {
+            updateTotalCost();
+        });
+
+        // Function to update total cost
+        function updateTotalCost() {
+            var totalCost = 0;
+
+            $(".quantity-input").each(function () {
+                var quantity = parseInt($(this).val());
+                var initialPrice = parseFloat($(this).data("price"));
+
+                if (!isNaN(quantity) && !isNaN(initialPrice)) {
+                    var price = quantity * initialPrice;
+                    totalCost += price;
+
+                    var id = $(this).data("id");
+                    $("tr[data-id='" + id + "']").find(".price").text(price.toFixed(2));
+                }
+            });
+
+            // Update the total cost element
+            $("#totalSum").text(totalCost.toFixed(2));
+        }
+
+        // Handle remove button clicks
+        $("form[action='RemoveFromCart']").on("submit", function (e) {
+            e.preventDefault(); // Prevent form submission
+            var id = $(this).find("input[name='id']").val();
+            $("tr[data-id='" + id + "']").remove(); // Remove the row
+            updateTotalCost(); // Update total cost
+        });
+    });
+</script>
+
+
+
+
