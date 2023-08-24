@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Domain;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,13 @@ namespace DataAccessLayer.Repository
     {
         private readonly List<AddToCart> _items;
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CartRepository> _logger;
 
-        public CartRepository(ApplicationDbContext applicationDb)
+        public CartRepository(ApplicationDbContext applicationDb,ILogger<CartRepository> logger)
         {
             _items = new List<AddToCart>();
             _context = applicationDb;
+            _logger = logger;
 
         }
 
@@ -37,6 +40,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while adding item to cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while adding item to cart: {ex.Message}");
             }
         }
@@ -54,6 +58,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while removing item from cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while removing item from cart: {ex.Message}");
             }
         }
@@ -68,6 +73,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while clearing cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while clearing cart: {ex.Message}");
             }
         }
@@ -81,6 +87,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while getting items from cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while getting items from cart: {ex.Message}");
                 return null;
             }

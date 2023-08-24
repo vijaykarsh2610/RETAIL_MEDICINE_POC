@@ -9,11 +9,13 @@ namespace MedicineManagement.Controllers
     {
         private readonly IDiseaseService _service;
         private readonly IWebHostEnvironment _environment;
+        private readonly ILogger<DiseaseController> _logger;
 
-        public DiseaseController(IDiseaseService service, IWebHostEnvironment environment)
+        public DiseaseController(IDiseaseService service, IWebHostEnvironment environment, ILogger<DiseaseController> logger)
         {
             _service = service;
             _environment = environment;
+            _logger = logger;
         }
 
         public IActionResult Home()
@@ -107,6 +109,7 @@ namespace MedicineManagement.Controllers
             {
                 // Handle the exception
                 ModelState.AddModelError("", "An error occurred while processing the request. Please try again later.");
+                _logger.LogError(ex, "An error occurred while processing the request. Please try again later.");
                 var categories = _service.GetDiseaseCategories();
                 ViewBag.Categories = new SelectList(categories);
                 return View(model);

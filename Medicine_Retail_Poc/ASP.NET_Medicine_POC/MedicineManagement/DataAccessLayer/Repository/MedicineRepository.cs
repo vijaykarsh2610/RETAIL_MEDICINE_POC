@@ -1,15 +1,18 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Domain;
+using Microsoft.Extensions.Logging;
 
 namespace DataAccessLayer.Repository
 {
     public class MedicineRepository : IMedicineRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<MedicineRepository> _logger;
 
-        public MedicineRepository(ApplicationDbContext context)
+        public MedicineRepository(ApplicationDbContext context,ILogger<MedicineRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // add methods to add,update,delete,search medicines
@@ -24,6 +27,7 @@ namespace DataAccessLayer.Repository
             catch (Exception ex)
             {
                 // Log or handle the exception as required
+                _logger.LogError($"Error adding medicine: {ex.Message}");
                 // In a production application, you might want to log the error or notify developers/admins
                 throw new Exception("An error occurred while adding the medicine to the database.", ex);
             }
@@ -38,6 +42,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error updating medicine: {ex.Message}");
                 throw new Exception("An error occurred while updating the medicine in the database.", ex);
             }
         }
@@ -51,6 +56,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error deleting medicine: {ex.Message}");
                 throw new Exception("An error occurred while deleting the medicine from the database.", ex);
             }
         }
@@ -65,6 +71,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error fetching all medicines: {ex.Message}");
                 throw new Exception("An error occurred while fetching all medicines from the database.", ex);
             }
         }
@@ -77,6 +84,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error fetching medicine with id {id}: {ex.Message}");
                 throw new Exception("An error occurred while fetching the medicine from the database.", ex);
             }
         }
@@ -89,6 +97,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error fetching medicines with category {category}: {ex.Message}");
                 throw new Exception("An error occurred while fetching the medicines from the database.", ex);
             }
         }
@@ -101,6 +110,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error fetching medicines with brand {brand}: {ex.Message}");
                 throw new Exception("An error occurred while fetching the medicines from the database.", ex);
             }
         }
@@ -120,6 +130,7 @@ namespace DataAccessLayer.Repository
             catch (Exception ex)
             {
                 // Log or handle the exception as required
+                _logger.LogError($"Error saving changes to the database: {ex.Message}");
                 // In a production application, you might want to log the error or notify developers/admins
                 throw new Exception("An error occurred while saving changes to the database.", ex);
             }

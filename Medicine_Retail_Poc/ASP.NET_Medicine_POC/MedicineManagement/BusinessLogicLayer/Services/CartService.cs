@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace BusinessLogicLayer.Services
     public class CartService: ICartService
     {
         private readonly ICartRepository _repository;
+        private readonly ILogger<CartService> _logger;
 
-        public CartService(ICartRepository repository)
+        public CartService(ICartRepository repository,ILogger<CartService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public void AddItemToCart(Medicine medicine, int quantity)
@@ -36,6 +39,7 @@ namespace BusinessLogicLayer.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while adding item to cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while adding item to cart: {ex.Message}");
             }
         }
@@ -48,6 +52,7 @@ namespace BusinessLogicLayer.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while removing item from cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while removing item from cart: {ex.Message}");
             }
         }
@@ -60,6 +65,8 @@ namespace BusinessLogicLayer.Services
             }
             catch (Exception ex)
             {
+
+                _logger.LogError($"Error occurred while clearing cart: {ex.Message}");
                 Console.WriteLine($"Error occurred while clearing cart: {ex.Message}");
             }
         }
@@ -72,6 +79,7 @@ namespace BusinessLogicLayer.Services
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error occurred while getting cart items: {ex.Message}");
                 Console.WriteLine($"Error occurred while getting cart items: {ex.Message}");
                 return null;
             }

@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,11 @@ namespace BusinessLogicLayer.Services
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository _repository;
-
-        public PaymentService(IPaymentRepository repository)
+        private readonly ILogger<PaymentService> _logger;
+        public PaymentService(IPaymentRepository repository, ILogger<PaymentService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public string GeneratePaymentVerification()

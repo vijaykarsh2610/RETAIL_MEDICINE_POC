@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace DataAccessLayer.Repository
@@ -14,9 +15,11 @@ namespace DataAccessLayer.Repository
     {
         private readonly ApplicationDbContext _context;
 
-        public LoginRepository(ApplicationDbContext context)
+        private readonly ILogger<LoginRepository> _logger;
+        public LoginRepository(ApplicationDbContext context,ILogger<LoginRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<Login> Authenticate(string email, string password, bool isAdmin, string N)
@@ -55,6 +58,7 @@ namespace DataAccessLayer.Repository
                 // Handle any exceptions that may occur during the authentication process
                 // You can log the error or perform any other actions here
                 Console.WriteLine("Error occurred during authentication: " + ex.Message);
+                _logger.LogError("Error occurred during authentication: " + ex.Message);
                 return null;
             }
         }

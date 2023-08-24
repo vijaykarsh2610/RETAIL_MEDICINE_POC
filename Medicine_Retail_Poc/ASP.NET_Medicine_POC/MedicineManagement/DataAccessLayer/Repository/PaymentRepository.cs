@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Data;
 using DataAccessLayer.Domain;
+using Microsoft.Extensions.Logging;
 
 
 namespace DataAccessLayer.Repository
@@ -7,10 +8,11 @@ namespace DataAccessLayer.Repository
     public class PaymentRepository : IPaymentRepository
     {
         private readonly ApplicationDbContext _context;
-
-        public PaymentRepository(ApplicationDbContext context)
+        private readonly ILogger<PaymentRepository> _logger;
+        public PaymentRepository(ApplicationDbContext context,ILogger<PaymentRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public void AddPayment(Payments payment)
@@ -22,6 +24,7 @@ namespace DataAccessLayer.Repository
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error adding payment: {ex.Message}");
                 Console.WriteLine($"Error adding payment: {ex.Message}");
             }
         }

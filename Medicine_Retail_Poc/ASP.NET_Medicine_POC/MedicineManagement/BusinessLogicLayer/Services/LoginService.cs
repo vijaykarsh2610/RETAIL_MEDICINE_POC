@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer.Domain;
 using DataAccessLayer.Repository;
+using Microsoft.Extensions.Logging;
 
 namespace BusinessLogicLayer.Services
 {
@@ -11,10 +12,11 @@ namespace BusinessLogicLayer.Services
     public class LoginService : ILoginService
     {
         private readonly ILoginRepository _repository;
-
-        public LoginService(ILoginRepository repository)
+        private readonly ILogger<LoginService> _logger;
+        public LoginService(ILoginRepository repository, ILogger<LoginService> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task<Login> Authenticate(Login model)
@@ -40,7 +42,7 @@ namespace BusinessLogicLayer.Services
             catch (Exception ex)
             {
                 // Handle any exceptions that may occur during the authentication process
-               
+               _logger.LogError("Error occurred during authentication: " + ex.Message);
                 return null;
             }
         }
