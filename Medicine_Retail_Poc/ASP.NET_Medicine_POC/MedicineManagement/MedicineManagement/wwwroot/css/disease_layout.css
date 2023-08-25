@@ -1,0 +1,51 @@
+﻿html a {
+    font-family: monospace;
+}
+
+#helloLink.active {
+    background-color: #5893d4; /* Set the desired background color */
+    color: white; /* Set text color to ensure readability */
+    border-radius: 25px;
+}
+
+ul li a:hover {
+    background-color: cadetblue;
+    border-radius: 25px;
+    height: 45px;
+}
+
+ul li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px 20px;
+}
+
+ul li p {
+    display: block;
+    color: gold;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px 20px;
+    font-style: italic;
+    height: 0px;
+}
+
+.side_bar {
+    margin-top: 100px;
+}
+
+/* Active navigation item style */
+
+/*
+                .sidebar ul li a.active {
+                    background-color: darkcyan;
+                }*/
+
+
+.sidebar ul li a.active {
+    background-color: #3a6ea5;
+    color: white; /* Set text color to ensure readability */
+}
